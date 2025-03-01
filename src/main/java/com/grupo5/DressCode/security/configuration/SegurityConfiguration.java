@@ -39,10 +39,7 @@ public class SegurityConfiguration {
                     auth.requestMatchers(HttpMethod.PUT, "/clothe/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/clothe/**").hasRole("ADMIN");*/
 
-                    /*auth.requestMatchers(HttpMethod.POST, "/category/**").hasRole("ADMIN");
-                    auth.requestMatchers(HttpMethod.PUT, "/category/**").hasRole("ADMIN");
-                    auth.requestMatchers(HttpMethod.DELETE, "/category/**").hasRole("ADMIN");
-
+                    /*
                     auth.requestMatchers(HttpMethod.POST, "/color/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.PUT, "/color/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/color/**").hasRole("ADMIN");
