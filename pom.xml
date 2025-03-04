@@ -80,28 +80,42 @@
 		</dependency>
 
 		<!-- Dependencias de seguridad para autenticación y autorización -->
-		<!-- Comenta esta sección si no deseas usar Spring Security por ahora -->
-		<!--
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        -->
+
 
 		<!-- Dependencias de seguridad para pruebas -->
-		<!-- Comenta esta sección si no deseas usar Spring Security por ahora -->
-		<!--
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-        -->
 
 		<!-- Conector de MySQL para interactuar con la base de datos -->
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Dependencias para JWT (JSON Web Token) -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.11.5</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.11.5</version>
 			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
