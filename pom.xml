@@ -81,22 +81,22 @@
 
 		<!-- Dependencias de seguridad para autenticación y autorización -->
 		<!-- Comenta esta sección si no deseas usar Spring Security por ahora -->
-		<!--
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        -->
+
 
 		<!-- Dependencias de seguridad para pruebas -->
 		<!-- Comenta esta sección si no deseas usar Spring Security por ahora -->
-		<!--
+
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-        -->
+
 
 		<!-- Conector de MySQL para interactuar con la base de datos -->
 		<dependency>
