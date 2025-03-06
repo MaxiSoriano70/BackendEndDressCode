@@ -55,11 +55,11 @@ public class Clothe {
     @JoinColumn(name = "color_id", nullable = false)
     private Color color;
 
-    @ManyToMany
+    /*@ManyToMany
     @JoinTable(
             name = "clothe_images",
             joinColumns = @JoinColumn(name = "clothe_id"),
             inverseJoinColumns = @JoinColumn(name = "image_id")
     )
-    private Set<Image> images;
+    private Set<Image> images;*/
 }
