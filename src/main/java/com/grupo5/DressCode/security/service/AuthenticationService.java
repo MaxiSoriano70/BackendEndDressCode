@@ -26,6 +26,8 @@ public class AuthenticationService {
         ERol role = request.getRole() != null ? request.getRole() : ERol.USER;
 
         User user = User.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(role)
