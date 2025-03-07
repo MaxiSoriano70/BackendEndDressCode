@@ -43,18 +43,18 @@ public class SegurityConfiguration {
                     auth.requestMatchers(HttpMethod.DELETE, "/user/**").hasRole("ADMIN");
 
                     // Endpoints con roles específicos
-                    /*auth.requestMatchers(HttpMethod.POST, "/clothe/**").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/clothe/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.PUT, "/clothe/**").hasRole("ADMIN");
-                    auth.requestMatchers(HttpMethod.DELETE, "/clothe/**").hasRole("ADMIN");*/
+                    auth.requestMatchers(HttpMethod.DELETE, "/clothe/**").hasRole("ADMIN");
 
-                    /*
+
                     auth.requestMatchers(HttpMethod.POST, "/color/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.PUT, "/color/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/color/**").hasRole("ADMIN");
 
                     auth.requestMatchers(HttpMethod.POST, "/imagen/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.PUT, "/imagen/**").hasRole("ADMIN");
-                    auth.requestMatchers(HttpMethod.DELETE, "/imagen/**").hasRole("ADMIN");*/
+                    auth.requestMatchers(HttpMethod.DELETE, "/imagen/**").hasRole("ADMIN");
 
                     // Endpoints que requieren autenticación
                     /*auth.requestMatchers("//**").authenticated();

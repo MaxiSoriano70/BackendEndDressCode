@@ -1,7 +1,7 @@
 package com.grupo5.DressCode.service.impl;
 
 import com.grupo5.DressCode.entity.Color;
-import com.grupo5.DressCode.repository.ICategoryRepository;
+//import com.grupo5.DressCode.repository.ICategoryRepository;
 import com.grupo5.DressCode.repository.IColorRepository;
 import com.grupo5.DressCode.service.IColorService;
 import org.springframework.stereotype.Service;

@@ -2,7 +2,7 @@ package com.grupo5.DressCode.controller;
 
 import com.grupo5.DressCode.entity.Image;
 import com.grupo5.DressCode.service.IImageService;
-import com.grupo5.DressCode.service.impl.ImageService;
+//import com.grupo5.DressCode.service.impl.ImageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
