@@ -22,12 +22,12 @@ public class SegurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(auth ->
                 {
+                    // Permitir solicitudes OPTIONS para CORS preflight
+                    auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+
                     // Endpoints sin autenticación
                     auth.requestMatchers("/auth/**").permitAll();
-                    auth.requestMatchers(HttpMethod.GET, "/clothe/**").permitAll();
-
-                    // Endpoints accesibles para todos
-                    auth.requestMatchers(HttpMethod.GET, "/category/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/clothe/**", "/category/**", "/color/**").permitAll(); // Añadido /color/**
 
                     // Endpoints accesibles solo para ADMIN
                     auth.requestMatchers(HttpMethod.POST, "/category/**").hasRole("ADMIN");
@@ -47,7 +47,6 @@ public class SegurityConfiguration {
                     auth.requestMatchers(HttpMethod.PUT, "/clothe/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/clothe/**").hasRole("ADMIN");
 
-
                     auth.requestMatchers(HttpMethod.POST, "/color/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.PUT, "/color/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/color/**").hasRole("ADMIN");
@@ -56,14 +55,10 @@ public class SegurityConfiguration {
                     auth.requestMatchers(HttpMethod.PUT, "/imagen/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/imagen/**").hasRole("ADMIN");
 
-                    // Endpoints que requieren autenticación
-                    /*auth.requestMatchers("//**").authenticated();
-                    auth.requestMatchers(HttpMethod.GET, "//**").authenticated();*/
-
                     // Cualquier otra solicitud debe estar autenticada
                     auth.anyRequest().authenticated();
                 })
-                .csrf(config -> config.disable()) // SOLO PARA THYMELEAF
+                .csrf(config -> config.disable())
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(authenticationProvider)
