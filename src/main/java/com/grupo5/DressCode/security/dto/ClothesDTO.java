@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClothesDTO {
+    private String sku;
     private String description;
     private String size;
     private String name;
@@ -19,5 +20,6 @@ public class ClothesDTO {
     private boolean active;
     private int categoryID;
     private int colorID;
-
+    // Campo para asociar imágenes existentes por su ID.
+    private List<Integer> imageIds;
 }
