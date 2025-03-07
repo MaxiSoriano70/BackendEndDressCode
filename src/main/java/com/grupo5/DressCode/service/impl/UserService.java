@@ -28,18 +28,22 @@ public class UserService implements IUserService {
     public Optional<UserDTO> searchForId(int id) {
         return userRepository.findById(id)
                 .map(user -> new UserDTO(
+                        user.getUsuarioId(), // Se añade el ID
                         user.getFirstName(),
                         user.getLastName(),
-                        user.getEmail()
+                        user.getEmail(),
+                        user.getRole() // Se añade el rol
                 ));
     }
     @Override
     public List<UserDTO> searchAll() {
         return userRepository.findAll().stream()
                 .map(user -> new UserDTO(
+                        user.getUsuarioId(), // Se añade el ID
                         user.getFirstName(),
                         user.getLastName(),
-                        user.getEmail()
+                        user.getEmail(),
+                        user.getRole() // Se añade el rol
                 ))
                 .collect(Collectors.toList());
     }
