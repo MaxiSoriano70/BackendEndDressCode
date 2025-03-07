@@ -1,0 +1,1905 @@
+Folder PATH listing
+Volume serial number is EB4B-30C0
+C:.
+|   .gitattributes
+|   .gitignore
+|   estructura_carpetas.txt
+|   mvnw
+|   mvnw.cmd
+|   pom.xml
+|   test.bat
+|   
++---.idea
+|       .gitignore
+|       compiler.xml
+|       encodings.xml
+|       jarRepositories.xml
+|       misc.xml
+|       vcs.xml
+|       workspace.xml
+|       
++---.mvn
+|   \---wrapper
+|           maven-wrapper.properties
+|           
++---data
+|       dresscode.mv.db
+|       dresscode.trace.db
+|       
++---src
+|   +---main
+|   |   +---java
+|   |   |   \---com
+|   |   |       \---grupo5
+|   |   |           \---DressCode
+|   |   |               |   DressCodeApplication.java
+|   |   |               |   
+|   |   |               +---configuration
+|   |   |               |       WebConfig.java
+|   |   |               |       
+|   |   |               +---controller
+|   |   |               |       CategoryController.java
+|   |   |               |       ClotheController.java
+|   |   |               |       ColorController.java
+|   |   |               |       ImagenController.java
+|   |   |               |       UserController.java
+|   |   |               |       
+|   |   |               +---dto
+|   |   |               |       UserDTO.java
+|   |   |               |       
+|   |   |               +---entity
+|   |   |               |       Category.java
+|   |   |               |       Clothe.java
+|   |   |               |       Color.java
+|   |   |               |       Image.java
+|   |   |               |       
+|   |   |               +---repository
+|   |   |               |       ICategoryRepository.java
+|   |   |               |       IClotheRepository.java
+|   |   |               |       IColorRepository.java
+|   |   |               |       IImageRepository.java
+|   |   |               |       
+|   |   |               +---security
+|   |   |               |   +---configuration
+|   |   |               |   |       ApplicationConfig.java
+|   |   |               |   |       JwtAuthenticationFilter.java
+|   |   |               |   |       SegurityConfiguration.java
+|   |   |               |   |       
+|   |   |               |   +---controller
+|   |   |               |   |       AuthenticationController.java
+|   |   |               |   |       
+|   |   |               |   +---dto
+|   |   |               |   |       AuthenticationRequest.java
+|   |   |               |   |       AuthenticationResponse.java
+|   |   |               |   |       ClothesDTO.java
+|   |   |               |   |       RegisterRequest.java
+|   |   |               |   |       
+|   |   |               |   +---entity
+|   |   |               |   |       User.java
+|   |   |               |   |       
+|   |   |               |   +---repository
+|   |   |               |   |       IUserRepository.java
+|   |   |               |   |       
+|   |   |               |   \---service
+|   |   |               |           AuthenticationService.java
+|   |   |               |           JwtService.java
+|   |   |               |           
+|   |   |               +---service
+|   |   |               |   |   ICategoryService.java
+|   |   |               |   |   IClotheService.java
+|   |   |               |   |   IColorService.java
+|   |   |               |   |   IImageService.java
+|   |   |               |   |   IUserService.java
+|   |   |               |   |   
+|   |   |               |   \---impl
+|   |   |               |           CategoryService.java
+|   |   |               |           ClotheService.java
+|   |   |               |           ColorService.java
+|   |   |               |           ImageService.java
+|   |   |               |           UserService.java
+|   |   |               |           
+|   |   |               \---utils
+|   |   |                       ERol.java
+|   |   |                       ESize.java
+|   |   |                       
+|   |   \---resources
+|   |           application.properties
+|   |           banner.txt
+|   |           
+|   \---test
+|       \---java
+|           \---com
+|               \---grupo5
+|                   \---DressCode
+|                           DressCodeApplicationTests.java
+|                           
+\---target
+    +---classes
+    |   |   application.properties
+    |   |   banner.txt
+    |   |   
+    |   \---com
+    |       \---grupo5
+    |           \---DressCode
+    |               |   DressCodeApplication.class
+    |               |   
+    |               +---configuration
+    |               |       WebConfig.class
+    |               |       
+    |               +---controller
+    |               |       CategoryController.class
+    |               |       ClotheController.class
+    |               |       ColorController.class
+    |               |       ImagenController.class
+    |               |       UserController.class
+    |               |       
+    |               +---dto
+    |               |       UserDTO.class
+    |               |       
+    |               +---entity
+    |               |       Category.class
+    |               |       Clothe.class
+    |               |       Color.class
+    |               |       Image.class
+    |               |       
+    |               +---repository
+    |               |       ICategoryRepository.class
+    |               |       IClotheRepository.class
+    |               |       IColorRepository.class
+    |               |       IImageRepository.class
+    |               |       
+    |               +---security
+    |               |   +---configuration
+    |               |   |       ApplicationConfig.class
+    |               |   |       JwtAuthenticationFilter.class
+    |               |   |       SegurityConfiguration.class
+    |               |   |       
+    |               |   +---controller
+    |               |   |       AuthenticationController.class
+    |               |   |       
+    |               |   +---dto
+    |               |   |       AuthenticationRequest$AuthenticationRequestBuilder.class
+    |               |   |       AuthenticationRequest.class
+    |               |   |       AuthenticationResponse$AuthenticationResponseBuilder.class
+    |               |   |       AuthenticationResponse.class
+    |               |   |       ClothesDTO$ClothesDTOBuilder.class
+    |               |   |       ClothesDTO.class
+    |               |   |       RegisterRequest$RegisterRequestBuilder.class
+    |               |   |       RegisterRequest.class
+    |               |   |       
+    |               |   +---entity
+    |               |   |       User$UserBuilder.class
+    |               |   |       User.class
+    |               |   |       
+    |               |   +---repository
+    |               |   |       IUserRepository.class
+    |               |   |       
+    |               |   \---service
+    |               |           AuthenticationService.class
+    |               |           JwtService.class
+    |               |           
+    |               +---service
+    |               |   |   ICategoryService.class
+    |               |   |   IClotheService.class
+    |               |   |   IColorService.class
+    |               |   |   IImageService.class
+    |               |   |   IUserService.class
+    |               |   |   
+    |               |   \---impl
+    |               |           CategoryService.class
+    |               |           ClotheService.class
+    |               |           ColorService.class
+    |               |           ImageService.class
+    |               |           UserService.class
+    |               |           
+    |               \---utils
+    |                       ERol.class
+    |                       ESize.class
+    |                       
+    +---generated-sources
+    |   \---annotations
+    +---generated-test-sources
+    |   \---test-annotations
+    +---maven-status
+    |   \---maven-compiler-plugin
+    |       +---compile
+    |       |   \---default-compile
+    |       |           createdFiles.lst
+    |       |           inputFiles.lst
+    |       |           
+    |       \---testCompile
+    |           \---default-testCompile
+    |                   createdFiles.lst
+    |                   inputFiles.lst
+    |                   
+    +---surefire-reports
+    |       com.grupo5.DressCode.DressCodeApplicationTests.txt
+    |       TEST-com.grupo5.DressCode.DressCodeApplicationTests.xml
+    |       
+    \---test-classes
+        \---com
+            \---grupo5
+                \---DressCode
+                        DressCodeApplicationTests.class
+                        
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\DressCodeApplication.java 
+----------------------------- 
+package com.grupo5.DressCode;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DressCodeApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(DressCodeApplication.class, args);
+	}
+
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\configuration\WebConfig.java 
+----------------------------- 
+package com.grupo5.DressCode.configuration;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    public void addCorsMappings(CorsRegistry registry){
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*")
+                .allowedMethods("GET", "POST", "PUT","DELETE")
+                .allowedHeaders("*")
+                .allowCredentials(true);
+    }
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\controller\CategoryController.java 
+----------------------------- 
+package com.grupo5.DressCode.controller;
+
+import com.grupo5.DressCode.entity.Category;
+import com.grupo5.DressCode.service.ICategoryService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+
+@RestController
+@RequestMapping("/category")
+public class CategoryController {
+    public ICategoryService categoryService;
+
+    public CategoryController(ICategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Category> crearCategoria(@RequestBody Category category){
+        Category categoriaARetornar = categoryService.createCategory(category);
+        if(categoriaARetornar == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }else {
+            return ResponseEntity.status(HttpStatus.CREATED).body(categoriaARetornar);
+        }
+    }
+    @GetMapping
+    public ResponseEntity<List<Category>> traerTodos(){
+        return ResponseEntity.ok(categoryService.searchAll());
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Category> buscarCategoriaPorId(@PathVariable Integer id){
+        Optional<Category> categoria = categoryService.searchForId(id);
+        if(categoria.isPresent()){
+            Category categoriaARetornar = categoria.get();
+            return ResponseEntity.ok(categoriaARetornar);
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+    @PutMapping
+    public ResponseEntity<String> actualizarCategoria(@RequestBody Category category){
+        Optional<Category> categoriaOptional = categoryService.searchForId(category.getCategoryId());
+        if (categoriaOptional.isPresent()) {
+            categoryService.updateCategory(category);
+            return ResponseEntity.ok("{\"message\": \"categoria modificada\"}");
+        } else {
+            return new ResponseEntity<>("{\"message\": \"categoria no encontrada\"}", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> borrarCategoria(@PathVariable Integer id){
+        Optional<Category> categoriaOptional = categoryService.searchForId(id);
+        if (categoriaOptional.isPresent()) {
+            categoryService.deleteCategory(id);
+            return ResponseEntity.ok("{\"message\": \"categoria eliminada\"}");
+        } else {
+            return new ResponseEntity<>("{\"message\": \"categoria no encontrada\"}", HttpStatus.NOT_FOUND);
+        }
+    }
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\controller\ClotheController.java 
+----------------------------- 
+package com.grupo5.DressCode.controller;
+
+import com.grupo5.DressCode.entity.Clothe;
+import com.grupo5.DressCode.security.dto.ClothesDTO;
+import com.grupo5.DressCode.service.IClotheService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/clothe")
+public class ClotheController {
+    private final IClotheService clotheService;
+
+    public ClotheController(IClotheService clotheService) {
+        this.clotheService = clotheService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Clothe> crearPrenda(@RequestBody ClothesDTO clothesDTO) {
+        Clothe prendaARetornar = clotheService.createClothe(clothesDTO);
+        if (prendaARetornar == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.CREATED).body(prendaARetornar);
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Clothe>> traerTodos() {
+        return ResponseEntity.ok(clotheService.searchAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Clothe> buscarPrendaPorId(@PathVariable Integer id) {
+        Optional<Clothe> prenda = clotheService.searchForId(id);
+        if (prenda.isPresent()) {
+            return ResponseEntity.ok(prenda.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<String> actualizarPrenda(@RequestBody Clothe clothe) {
+        Optional<Clothe> prendaOptional = clotheService.searchForId(clothe.getClotheId());
+        if (prendaOptional.isPresent()) {
+            clotheService.updateClothe(clothe);
+            return ResponseEntity.ok("{\"message\": \"prenda modificada\"}");
+        } else {
+            return new ResponseEntity<>("{\"message\": \"prenda no encontrada\"}", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> borrarPrenda(@PathVariable Integer id) {
+        Optional<Clothe> prendaOptional = clotheService.searchForId(id);
+        if (prendaOptional.isPresent()) {
+            clotheService.deleteClothe(id);
+            return ResponseEntity.ok("{\"message\": \"prenda eliminada\"}");
+        } else {
+            return new ResponseEntity<>("{\"message\": \"prenda no encontrada\"}", HttpStatus.NOT_FOUND);
+        }
+    }
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\controller\ColorController.java 
+----------------------------- 
+package com.grupo5.DressCode.controller;
+
+import com.grupo5.DressCode.entity.Color;
+import com.grupo5.DressCode.service.IColorService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/color")
+public class ColorController {
+    public IColorService colorService;
+
+    public ColorController(IColorService colorService) {
+        this.colorService = colorService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Color> crearColor(@RequestBody Color color){
+        Color colorARetornar = colorService.createColor(color);
+        if(colorARetornar == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }else {
+            return ResponseEntity.status(HttpStatus.CREATED).body(colorARetornar);
+        }
+    }
+    @GetMapping
+    public ResponseEntity<List<Color>> traerTodos(){
+        return ResponseEntity.ok(colorService.searchAll());
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Color> buscarColorPorId(@PathVariable Integer id){
+        Optional<Color> color = colorService.searchForId(id);
+        if(color.isPresent()){
+            Color colorARetornar = color.get();
+            return ResponseEntity.ok(colorARetornar);
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+    @PutMapping
+    public ResponseEntity<String> actualizarColor(@RequestBody Color color){
+        Optional<Color> colorOptional = colorService.searchForId(color.getColorId());
+        if (colorOptional.isPresent()) {
+            colorService.updateColor(color);
+            return ResponseEntity.ok("{\"message\": \"color modificado\"}");
+        } else {
+            return new ResponseEntity<>("{\"message\": \"color no encontrado\"}", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> borrarCategoria(@PathVariable Integer id){
+        Optional<Color> colorOptional = colorService.searchForId(id);
+        if (colorOptional.isPresent()) {
+            colorService.deleteColor(id);
+            return ResponseEntity.ok("{\"message\": \"color eliminado\"}");
+        } else {
+            return new ResponseEntity<>("{\"message\": \"color no encontrado\"}", HttpStatus.NOT_FOUND);
+        }
+    }
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\controller\ImagenController.java 
+----------------------------- 
+package com.grupo5.DressCode.controller;
+
+import com.grupo5.DressCode.entity.Image;
+import com.grupo5.DressCode.service.IImageService;
+//import com.grupo5.DressCode.service.impl.ImageService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/imagen")
+public class ImagenController {
+    public IImageService imageService;
+
+    public ImagenController(IImageService imageService) {
+        this.imageService = imageService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Image> crearImagen(@RequestBody Image image){
+        Image imagenARetornar = imageService.createImage(image);
+        if(imagenARetornar == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }else {
+            return ResponseEntity.status(HttpStatus.CREATED).body(imagenARetornar);
+        }
+    }
+    @GetMapping
+    public ResponseEntity<List<Image>> traerTodos(){
+        return ResponseEntity.ok(imageService.searchAll());
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Image> buscarImagenPorId(@PathVariable Integer id){
+        Optional<Image> imagen = imageService.searchForId(id);
+        if(imagen.isPresent()){
+            Image imageARetornar = imagen.get();
+            return ResponseEntity.ok(imageARetornar);
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+    @PutMapping
+    public ResponseEntity<String> actualizarImagen(@RequestBody Image image){
+        Optional<Image> imagenOptional = imageService.searchForId(image.getImagenId());
+        if (imagenOptional.isPresent()) {
+            imageService.updateImage(image);
+            return ResponseEntity.ok("{\"message\": \"imagen modificada\"}");
+        } else {
+            return new ResponseEntity<>("{\"message\": \"imagen no encontrada\"}", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> borrarImagen(@PathVariable Integer id){
+        Optional<Image> imagenOptional = imageService.searchForId(id);
+        if (imagenOptional.isPresent()) {
+            imageService.deleteImage(id);
+            return ResponseEntity.ok("{\"message\": \"imagen eliminada\"}");
+        } else {
+            return new ResponseEntity<>("{\"message\": \"imagen no encontrada\"}", HttpStatus.NOT_FOUND);
+        }
+    }
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\controller\UserController.java 
+----------------------------- 
+package com.grupo5.DressCode.controller;
+
+import com.grupo5.DressCode.dto.UserDTO;
+import com.grupo5.DressCode.security.entity.User;
+import com.grupo5.DressCode.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/user")
+public class UserController {
+    @Autowired
+    private IUserService userService;
+
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody User user){
+        User userToReturn = userService.createUser(user);
+        if(user == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }else {
+            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserDTO>> getAllUsers(){
+        return ResponseEntity.ok(userService.searchAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Integer id){
+        Optional<UserDTO> userDTO = userService.searchForId(id);
+        if(userDTO.isPresent()){
+            return ResponseEntity.ok(userDTO.get());
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable Integer id, @RequestBody User user){
+        Optional<User> userOptional = userService.updateUser(id, user);
+        if (userOptional.isPresent()) {
+            return ResponseEntity.ok("{\"message\": \"user updated\"}");
+        } else {
+            return new ResponseEntity<>("{\"message\": \"user not found\"}", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Integer id){
+        Optional<UserDTO> userOptional = userService.searchForId(id);
+        if (userOptional.isPresent()) {
+            userService.deleteUser(id);
+            return ResponseEntity.ok("{\"message\": \"user deleted\"}");
+        } else {
+            return new ResponseEntity<>("{\"message\": \"user not found\"}", HttpStatus.NOT_FOUND);
+        }
+    }
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\dto\UserDTO.java 
+----------------------------- 
+package com.grupo5.DressCode.dto;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserDTO {
+    private String firstName;
+    private String lastName;
+    private String email;
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\entity\Category.java 
+----------------------------- 
+package com.grupo5.DressCode.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Entity
+@Table(name = "CATEGORIES")
+public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer categoryId;
+    @Column(nullable = false)
+    private String categoryName;
+}
+
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\entity\Clothe.java 
+----------------------------- 
+package com.grupo5.DressCode.entity;
+
+import com.grupo5.DressCode.utils.ESize;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.*;
+import java.util.Set;
+import java.util.HashSet;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Entity
+@Table(name = "CLOTHES")
+public class Clothe {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer clotheId;
+
+    @Column(nullable = false, unique = true)
+    @NotNull
+    private String sku;
+
+    @Column(nullable = false)
+    @NotNull
+    private String description;
+
+    // Puedes seguir usando el enum ESize si lo prefieres; aquí se usa String para simplificar.
+    @Column(nullable = false)
+    @NotNull
+    private String size;
+
+    @Column(nullable = false)
+    @NotNull
+    private String name;
+
+    @Column(nullable = false)
+    @NotNull
+    @Positive
+    private float price;
+
+    @Column(nullable = false)
+    @Min(0)
+    private Integer stock;
+
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private boolean active;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "color_id", nullable = false)
+    private Color color;
+
+    // Relación uno a muchos: una prenda puede tener varias imágenes.
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "clothe_id") // Esta columna se agregará en la tabla IMAGES
+    private Set<Image> images = new HashSet<>();
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\entity\Color.java 
+----------------------------- 
+package com.grupo5.DressCode.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Entity
+@Table(name = "COLORS")
+public class Color {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer colorId;
+
+    @Column(nullable = false)
+    private String colorName;
+
+    @Version
+    @Column(nullable = false)
+    private Integer version; // La columna 'version' es necesaria para concurrencia optimista
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\entity\Image.java 
+----------------------------- 
+package com.grupo5.DressCode.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "IMAGES")
+public class Image {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer imagenId;
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] imageContent;
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\repository\ICategoryRepository.java 
+----------------------------- 
+package com.grupo5.DressCode.repository;
+
+import com.grupo5.DressCode.entity.Category;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ICategoryRepository extends JpaRepository<Category, Integer> {
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\repository\IClotheRepository.java 
+----------------------------- 
+package com.grupo5.DressCode.repository;
+
+import com.grupo5.DressCode.entity.Clothe;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface IClotheRepository extends JpaRepository<Clothe, Integer> {
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\repository\IColorRepository.java 
+----------------------------- 
+package com.grupo5.DressCode.repository;
+
+import com.grupo5.DressCode.entity.Color;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface IColorRepository extends JpaRepository<Color, Integer> {
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\repository\IImageRepository.java 
+----------------------------- 
+package com.grupo5.DressCode.repository;
+
+import com.grupo5.DressCode.entity.Image;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface IImageRepository extends JpaRepository<Image, Integer> {
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\security\configuration\ApplicationConfig.java 
+----------------------------- 
+package com.grupo5.DressCode.security.configuration;
+
+import com.grupo5.DressCode.security.repository.IUserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@Configuration
+@RequiredArgsConstructor
+public class ApplicationConfig {
+    private final IUserRepository userRepository;
+    @Bean
+    public UserDetailsService userDetailsService(){
+        return username -> userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+    }
+    @Bean
+    public AuthenticationProvider authenticationProvider(){
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\security\configuration\JwtAuthenticationFilter.java 
+----------------------------- 
+package com.grupo5.DressCode.security.configuration;
+
+import com.grupo5.DressCode.security.service.JwtService;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
+@Configuration
+@Component
+@RequiredArgsConstructor
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
+
+    @Override
+    protected void doFilterInternal(
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain) throws ServletException, IOException {
+        final String authHeader = request.getHeader("Authorization");
+        final String jwt;
+        final String userEmail;
+
+        if(authHeader == null || !authHeader.startsWith("Bearer ")){
+            filterChain.doFilter(request, response);
+            return;
+        }
+        jwt = authHeader.substring(7);
+        userEmail = jwtService.extractUsername(jwt);
+
+        if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+
+            if(jwtService.isTokenValid(jwt, userDetails)){
+                var roles = jwtService.extractAuthorities(jwt);
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        roles
+                );
+                authenticationToken.setDetails(
+                        new WebAuthenticationDetailsSource().buildDetails(request)
+                );
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+            }
+        }
+        filterChain.doFilter(request, response);
+    }
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\security\configuration\SegurityConfiguration.java 
+----------------------------- 
+package com.grupo5.DressCode.security.configuration;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+@Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
+public class SegurityConfiguration {
+    private final AuthenticationProvider authenticationProvider;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http.authorizeHttpRequests(auth ->
+                {
+                    // Endpoints sin autenticación
+                    auth.requestMatchers("/auth/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/clothe/**").permitAll();
+
+                    // Endpoints accesibles para todos
+                    auth.requestMatchers(HttpMethod.GET, "/category/**").permitAll();
+
+                    // Endpoints accesibles solo para ADMIN
+                    auth.requestMatchers(HttpMethod.POST, "/category/**").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT, "/category/**").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.DELETE, "/category/**").hasRole("ADMIN");
+
+                    // Endpoints accesibles para ADMIN y USER
+                    auth.requestMatchers(HttpMethod.PUT, "/user/**").hasAnyRole("ADMIN", "USER");
+
+                    // Endpoints accesibles solo para ADMIN
+                    auth.requestMatchers(HttpMethod.GET, "/user/**").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/user/**").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.DELETE, "/user/**").hasRole("ADMIN");
+
+                    // Endpoints con roles específicos
+                    auth.requestMatchers(HttpMethod.POST, "/clothe/**").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT, "/clothe/**").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.DELETE, "/clothe/**").hasRole("ADMIN");
+
+
+                    auth.requestMatchers(HttpMethod.POST, "/color/**").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT, "/color/**").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.DELETE, "/color/**").hasRole("ADMIN");
+
+                    auth.requestMatchers(HttpMethod.POST, "/imagen/**").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT, "/imagen/**").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.DELETE, "/imagen/**").hasRole("ADMIN");
+
+                    // Endpoints que requieren autenticación
+                    /*auth.requestMatchers("//**").authenticated();
+                    auth.requestMatchers(HttpMethod.GET, "//**").authenticated();*/
+
+                    // Cualquier otra solicitud debe estar autenticada
+                    auth.anyRequest().authenticated();
+                })
+                .csrf(config -> config.disable()) // SOLO PARA THYMELEAF
+                .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(authenticationProvider)
+                .build();
+    }
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\security\controller\AuthenticationController.java 
+----------------------------- 
+package com.grupo5.DressCode.security.controller;
+
+import com.grupo5.DressCode.security.dto.AuthenticationRequest;
+import com.grupo5.DressCode.security.dto.AuthenticationResponse;
+import com.grupo5.DressCode.security.dto.RegisterRequest;
+import com.grupo5.DressCode.security.service.AuthenticationService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/auth")
+@RequiredArgsConstructor
+public class AuthenticationController {
+    private final AuthenticationService authenticationService;
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+        try {
+            AuthenticationResponse response = authenticationService.register(request);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error en el registro: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody AuthenticationRequest request) {
+        try {
+            AuthenticationResponse response = authenticationService.login(request);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas: " + e.getMessage());
+        }
+    }
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\security\dto\AuthenticationRequest.java 
+----------------------------- 
+package com.grupo5.DressCode.security.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class AuthenticationRequest {
+    private String email;
+    private String password;
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\security\dto\AuthenticationResponse.java 
+----------------------------- 
+package com.grupo5.DressCode.security.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class AuthenticationResponse {
+    private String jwt;
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\security\dto\ClothesDTO.java 
+----------------------------- 
+package com.grupo5.DressCode.security.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.util.List;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ClothesDTO {
+    private String sku;
+    private String description;
+    private String size;
+    private String name;
+    private Double price;
+    private int stock;
+    private boolean active;
+    private int categoryID;
+    private int colorID;
+    // Campo para asociar imágenes existentes por su ID.
+    private List<Integer> imageIds;
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\security\dto\RegisterRequest.java 
+----------------------------- 
+package com.grupo5.DressCode.security.dto;
+
+import com.grupo5.DressCode.utils.ERol;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class RegisterRequest {
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
+    private ERol role;
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\security\entity\User.java 
+----------------------------- 
+package com.grupo5.DressCode.security.entity;
+
+import com.grupo5.DressCode.utils.ERol;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "users")
+public class User implements UserDetails {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer usuarioId;
+    @Column(nullable = false)
+    private String firstName;
+    @Column(nullable = false)
+    private String lastName;
+    @Column(nullable = false, unique = true)
+    private String email;
+    @Column(nullable = false)
+    private String password;
+    @Enumerated(EnumType.STRING)
+    private ERol role;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\security\repository\IUserRepository.java 
+----------------------------- 
+package com.grupo5.DressCode.security.repository;
+
+import com.grupo5.DressCode.security.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface IUserRepository extends JpaRepository<User, Integer> {
+    Optional<User> findByEmail(String email);
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\security\service\AuthenticationService.java 
+----------------------------- 
+package com.grupo5.DressCode.security.service;
+
+import com.grupo5.DressCode.security.dto.AuthenticationRequest;
+import com.grupo5.DressCode.security.dto.AuthenticationResponse;
+import com.grupo5.DressCode.security.dto.RegisterRequest;
+import com.grupo5.DressCode.security.entity.User;
+import com.grupo5.DressCode.security.repository.IUserRepository;
+import com.grupo5.DressCode.utils.ERol;
+import jakarta.mail.internet.MimeMessage;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class AuthenticationService {
+    private final PasswordEncoder passwordEncoder;
+    private final IUserRepository userRepository;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
+    @Autowired
+    private JavaMailSender javaMailSender;
+    public AuthenticationResponse register(RegisterRequest request) {
+        ERol role = request.getRole() != null ? request.getRole() : ERol.USER;
+
+        // Crear el usuario
+        User user = User.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(role)
+                .build();
+
+        // Guardar el usuario
+        userRepository.save(user);
+
+        // Crear el mensaje de bienvenida
+        String asunto = "Bienvenido a DressCode";
+        String cuerpo = "Hola " + user.getFirstName() + " " + user.getFirstName() + ",\n\n" +
+                "Bienvenido a DressCode. Nos alegra que te hayas unido a nuestra plataforma.\n" +
+                "¡Disfruta de la experiencia!\n\n" +
+                "http://localhost:5174/login" +
+                "Correo: " + user.getEmail() +
+                "Saludos,\nEl equipo de DressCode";
+
+        // Enviar el correo
+        enviarCorreo(user.getEmail(), asunto, cuerpo);
+
+        // Generar el JWT
+        String jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder()
+                .jwt(jwtToken)
+                .build();
+    }
+
+
+
+    public AuthenticationResponse login(AuthenticationRequest request) {
+        authenticationManager.authenticate(
+          new UsernamePasswordAuthenticationToken(
+                  request.getEmail(),
+                  request.getPassword()
+          )
+        );
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+        String jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder()
+                .jwt(jwtToken)
+                .build();
+    }
+
+    public void enviarCorreo(String destinatario, String asunto, String cuerpo) {
+        try {
+            MimeMessage mensaje = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mensaje, true);
+            helper.setFrom("maximiliano.70.32.10.soriano@gmail.com");
+            helper.setTo(destinatario);
+            helper.setSubject(asunto);
+            helper.setText(cuerpo);
+
+            javaMailSender.send(mensaje);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\security\service\JwtService.java 
+----------------------------- 
+package com.grupo5.DressCode.security.service;
+
+import com.grupo5.DressCode.security.entity.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
+import java.security.Key;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+@Service
+public class JwtService {
+    private static final String SECRET_KEY = "d85fdfad667f0fed4487e3cbb8a67ed5d37db75bacf1981def8a572399a9cda0";
+
+    public String generateToken(User user) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", Collections.singletonList("ROLE_" + user.getRole().name()));
+        claims.put("firstName", user.getFirstName());
+        claims.put("lastName", user.getLastName());
+        return generateToken(claims, user);
+    }
+
+
+    // Método para crear el token con los claims extraídos
+    public String generateToken(Map<String, Object> extractClaims, UserDetails userDetails) {
+        return Jwts.builder()
+                .setClaims(extractClaims)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 1 día de expiración
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    // Obtener la clave de firma para el JWT
+    private Key getSignInKey() {
+        byte[] keyBytes = Decoders.BASE64URL.decode(SECRET_KEY);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    // Extraer el nombre de usuario del token
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    // Extraer cualquier claim del token
+    public <T> T extractClaim(String token, Function<Claims, T> claimsTFunction) {
+        final Claims claims = extractAllClaims(token);
+        return claimsTFunction.apply(claims);
+    }
+
+    // Extraer todos los claims del token
+    public Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    // Verificar si el token es válido
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    }
+
+    // Verificar si el token ha expirado
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    // Extraer la fecha de expiración del token
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+    // Extraer los roles del token y convertirlos en GrantedAuthority
+    public Collection<? extends GrantedAuthority> extractAuthorities(String token) {
+        Claims claims = extractAllClaims(token);
+        // Obtenemos el claim "role" que ahora es una lista de strings
+        List<String> roles = claims.get("role", List.class);
+        return roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\service\ICategoryService.java 
+----------------------------- 
+package com.grupo5.DressCode.service;
+
+import com.grupo5.DressCode.entity.Category;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface ICategoryService {
+    Category createCategory(Category category);
+    Optional<Category> searchForId(int id);
+    List<Category> searchAll();
+    void updateCategory(Category category);
+    void deleteCategory(Integer id);
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\service\IClotheService.java 
+----------------------------- 
+package com.grupo5.DressCode.service;
+
+import com.grupo5.DressCode.entity.Clothe;
+import com.grupo5.DressCode.security.dto.ClothesDTO;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface IClotheService {
+    Clothe createClothe(ClothesDTO clothesDTO);
+    Optional<Clothe> searchForId(int id);
+    List<Clothe> searchAll();
+    void updateClothe(Clothe clothe);
+    void deleteClothe(Integer id);
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\service\IColorService.java 
+----------------------------- 
+package com.grupo5.DressCode.service;
+
+import com.grupo5.DressCode.entity.Color;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface IColorService {
+    Color createColor(Color color);
+    Optional<Color> searchForId(int id);
+    List<Color> searchAll();
+    void updateColor(Color color);
+    void deleteColor(Integer id);
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\service\IImageService.java 
+----------------------------- 
+package com.grupo5.DressCode.service;
+
+import com.grupo5.DressCode.entity.Image;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface IImageService {
+    Image createImage(Image image);
+    Optional<Image> searchForId(int id);
+    List<Image> searchAll();
+    void updateImage(Image image);
+    void deleteImage(Integer id);
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\service\IUserService.java 
+----------------------------- 
+package com.grupo5.DressCode.service;
+
+import com.grupo5.DressCode.dto.UserDTO;
+import com.grupo5.DressCode.security.entity.User;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface IUserService {
+    User createUser (User user);
+    Optional<UserDTO> searchForId(int id);
+    List<UserDTO> searchAll();
+    Optional<User> updateUser(int id, User user);
+    void deleteUser(Integer id);
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\service\impl\CategoryService.java 
+----------------------------- 
+package com.grupo5.DressCode.service.impl;
+
+import com.grupo5.DressCode.entity.Category;
+import com.grupo5.DressCode.repository.ICategoryRepository;
+import com.grupo5.DressCode.service.ICategoryService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class CategoryService implements ICategoryService {
+    private ICategoryRepository categoryRepository;
+
+    public CategoryService(ICategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
+
+    @Override
+    public Category createCategory(Category category) {
+        return categoryRepository.save(category);
+    }
+
+    @Override
+    public Optional<Category> searchForId(int id) {
+        return categoryRepository.findById(id);
+    }
+
+    @Override
+    public List<Category> searchAll() {
+        return categoryRepository.findAll();
+    }
+
+    @Override
+    public void updateCategory(Category category) {
+        categoryRepository.save(category);
+    }
+
+    @Override
+    public void deleteCategory(Integer id) {
+        categoryRepository.deleteById(id);
+    }
+} 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\service\impl\ClotheService.java 
+----------------------------- 
+package com.grupo5.DressCode.service.impl;
+
+import com.grupo5.DressCode.entity.Category;
+import com.grupo5.DressCode.entity.Clothe;
+import com.grupo5.DressCode.entity.Color;
+import com.grupo5.DressCode.entity.Image;
+import com.grupo5.DressCode.repository.ICategoryRepository;
+import com.grupo5.DressCode.repository.IClotheRepository;
+import com.grupo5.DressCode.repository.IColorRepository;
+import com.grupo5.DressCode.security.dto.ClothesDTO;
+import com.grupo5.DressCode.service.IClotheService;
+import com.grupo5.DressCode.service.IImageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class ClotheService implements IClotheService {
+    private final IClotheRepository clotheRepository;
+
+    @Autowired
+    private IColorRepository colorRepository;
+
+    @Autowired
+    private ICategoryRepository categoryRepository;
+
+    @Autowired
+    private IImageService imageService;
+
+    public ClotheService(IClotheRepository clotheRepository) {
+        this.clotheRepository = clotheRepository;
+    }
+
+    @Override
+    public Clothe createClothe(ClothesDTO clothesDTO) {
+        Optional<Category> categoryOpt = categoryRepository.findById(clothesDTO.getCategoryID());
+        if (!categoryOpt.isPresent()){
+            throw new RuntimeException("Categoría no encontrada");
+        }
+        Optional<Color> colorOptional = colorRepository.findById(clothesDTO.getColorID());
+        if (colorOptional.isEmpty()){
+            throw new RuntimeException("Color no encontrado");
+        }
+        Clothe newClothe = new Clothe();
+        newClothe.setSku(clothesDTO.getSku());
+        newClothe.setDescription(clothesDTO.getDescription());
+        newClothe.setSize(clothesDTO.getSize());
+        newClothe.setName(clothesDTO.getName());
+        newClothe.setPrice(clothesDTO.getPrice().floatValue());
+        newClothe.setStock(clothesDTO.getStock());
+        newClothe.setActive(clothesDTO.isActive());
+        newClothe.setCategory(categoryOpt.get());
+        newClothe.setColor(colorOptional.get());
+        // Asocia las imágenes según los IDs enviados.
+        if (clothesDTO.getImageIds() != null) {
+            for (Integer imageId : clothesDTO.getImageIds()){
+                Optional<Image> imageOpt = imageService.searchForId(imageId);
+                imageOpt.ifPresent(image -> newClothe.getImages().add(image));
+            }
+        }
+        return clotheRepository.save(newClothe);
+    }
+
+    @Override
+    public Optional<Clothe> searchForId(int id) {
+        return clotheRepository.findById(id);
+    }
+
+    @Override
+    public List<Clothe> searchAll() {
+        return clotheRepository.findAll();
+    }
+
+    @Override
+    public void updateClothe(Clothe clothe) {
+        clotheRepository.save(clothe);
+    }
+
+    @Override
+    public void deleteClothe(Integer id) {
+        clotheRepository.deleteById(id);
+    }
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\service\impl\ColorService.java 
+----------------------------- 
+package com.grupo5.DressCode.service.impl;
+
+import com.grupo5.DressCode.entity.Color;
+//import com.grupo5.DressCode.repository.ICategoryRepository;
+import com.grupo5.DressCode.repository.IColorRepository;
+import com.grupo5.DressCode.service.IColorService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+@Service
+public class ColorService implements IColorService {
+    private IColorRepository colorRepository;
+
+    public ColorService(IColorRepository colorRepository) {
+        this.colorRepository = colorRepository;
+    }
+
+    @Override
+    public Color createColor(Color color) {
+        return colorRepository.save(color);
+    }
+
+    @Override
+    public Optional<Color> searchForId(int id) {
+        return colorRepository.findById(id);
+    }
+
+    @Override
+    public List<Color> searchAll() {
+        return colorRepository.findAll();
+    }
+
+    @Override
+    public void updateColor(Color color) {
+        colorRepository.save(color);
+    }
+
+    @Override
+    public void deleteColor(Integer id) {
+        colorRepository.deleteById(id);
+    }
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\service\impl\ImageService.java 
+----------------------------- 
+package com.grupo5.DressCode.service.impl;
+
+import com.grupo5.DressCode.entity.Image;
+import com.grupo5.DressCode.repository.IImageRepository;
+import com.grupo5.DressCode.service.IImageService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+@Service
+public class ImageService implements IImageService {
+    private IImageRepository imageRepository;
+
+    public ImageService(IImageRepository imageRepository) {
+        this.imageRepository = imageRepository;
+    }
+
+    @Override
+    public Image createImage(Image image) {
+        return imageRepository.save(image);
+    }
+
+    @Override
+    public Optional<Image> searchForId(int id) {
+        return imageRepository.findById(id);
+    }
+
+    @Override
+    public List<Image> searchAll() {
+        return imageRepository.findAll();
+    }
+
+    @Override
+    public void updateImage(Image image) {
+        imageRepository.save(image);
+    }
+
+
+    @Override
+    public void deleteImage(Integer id) {
+        imageRepository.deleteById(id);
+    }
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\service\impl\UserService.java 
+----------------------------- 
+package com.grupo5.DressCode.service.impl;
+
+import com.grupo5.DressCode.dto.UserDTO;
+import com.grupo5.DressCode.security.entity.User;
+import com.grupo5.DressCode.security.repository.IUserRepository;
+import com.grupo5.DressCode.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+public class UserService implements IUserService {
+    @Autowired
+    private IUserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Override
+    public User createUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+    @Override
+    public Optional<UserDTO> searchForId(int id) {
+        return userRepository.findById(id)
+                .map(user -> new UserDTO(
+                        user.getFirstName(),
+                        user.getLastName(),
+                        user.getEmail()
+                ));
+    }
+    @Override
+    public List<UserDTO> searchAll() {
+        return userRepository.findAll().stream()
+                .map(user -> new UserDTO(
+                        user.getFirstName(),
+                        user.getLastName(),
+                        user.getEmail()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<User> updateUser(int id, User user) {
+        Optional<User> userOpt = userRepository.findById(id);
+        if (userOpt.isPresent()) {
+            User existingUser = userOpt.get();
+            if (user.getFirstName() != null && !user.getFirstName().isEmpty()) {
+                existingUser.setFirstName(user.getFirstName());
+            }
+            if (user.getLastName() != null && !user.getLastName().isEmpty()) {
+                existingUser.setLastName(user.getLastName());
+            }
+            if (user.getEmail() != null && !user.getEmail().isEmpty()) {
+                existingUser.setEmail(user.getEmail());
+            }
+            if (user.getRole() != null) {
+                existingUser.setRole(user.getRole());
+            }
+            userRepository.save(existingUser);
+        }
+        return userOpt;
+    }
+    @Override
+    public void deleteUser(Integer id) {
+        userRepository.deleteById(id);
+    }
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\utils\ERol.java 
+----------------------------- 
+package com.grupo5.DressCode.utils;
+
+public enum ERol {
+    ADMIN,
+    USER
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\java\com\grupo5\DressCode\utils\ESize.java 
+----------------------------- 
+package com.grupo5.DressCode.utils;
+
+public enum ESize {
+    S,
+    M,
+    L,
+    XL,
+    XXL
+}
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\resources\application.properties 
+----------------------------- 
+spring.application.name=DressCode
+
+#LOGGING
+logging.level.root=INFO
+
+#appender consola
+logging.level.org.springframework.web=INFO
+#logging.level.org.hibernate=ERROR
+logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss} [%highlight(%-5level)] [%cyan(%thread)] %magenta(%logger{15}) - %msg%n
+
+# Actualizar base de datos y crear entidades
+spring.jpa.hibernate.ddl-auto = update
+
+# spring.jpa.hibernate.ddl-auto=create-drop
+
+
+# Hibernate genera SQL optimizado
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQLDialect
+
+spring.datasource.url = jdbc:mysql://localhost:3306/dressCodeDB?useSSL=false&serverTimezone=UTC&useLegacyDateTimeCode=false
+
+spring.datasource.username=root
+
+spring.datasource.password=root
+# Mostrar sentencias SQL en la consola
+spring.jpa.show-sql=true
+
+logging.level.org.springframework.mail=DEBUG
+
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=maximiliano.70.32.10.soriano@gmail.com
+spring.mail.password=dcavyjxbxwoicbgf
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\main\resources\banner.txt 
+----------------------------- 
+,-----.   ,---.   ,-----.,--. ,--. ,------.,--.  ,--.,------.   ,------.  ,------. ,------. ,---.   ,---.   ,-----. ,-----. ,------.  ,------.
+|  |) /_ /  O  \ '  .--./|  .'   / |  .---'|  ,'.|  ||  .-.  \  |  .-.  \ |  .--. '|  .---''   .-' '   .-' '  .--./'  .-.  '|  .-.  \ |  .---'
+|  .-.  \  .-.  ||  |    |  .   '  |  `--, |  |' '  ||  |  \  : |  |  \  :|  '--'.'|  `--, `.  `-. `.  `-. |  |    |  | |  ||  |  \  :|  `--,
+|  '--' /  | |  |'  '--'\|  |\   \ |  `---.|  | `   ||  '--'  / |  '--'  /|  |\  \ |  `---..-'    |.-'    |'  '--'\'  '-'  '|  '--'  /|  `---.
+`------'`--' `--' `-----'`--' '--' `------'`--'  `--'`-------'  `-------' `--' '--'`------'`-----' `-----'  `-----' `-----' `-------' `------'
+
+${application.title} ${application.version}
+Powered by Spring Boot ${spring-boot.version} 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\BackendEndDressCode\src\test\java\com\grupo5\DressCode\DressCodeApplicationTests.java 
+----------------------------- 
+package com.grupo5.DressCode;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class DressCodeApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
+ 

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import java.util.Set;
+import java.util.HashSet;
 
 @Getter
 @Setter
@@ -26,10 +27,10 @@ public class Clothe {
     @NotNull
     private String description;
 
-    @Enumerated(EnumType.STRING)
+    // Puedes seguir usando el enum ESize si lo prefieres; aquí se usa String para simplificar.
     @Column(nullable = false)
     @NotNull
-    private ESize size;
+    private String size;
 
     @Column(nullable = false)
     @NotNull
@@ -55,11 +56,8 @@ public class Clothe {
     @JoinColumn(name = "color_id", nullable = false)
     private Color color;
 
-    /*@ManyToMany
-    @JoinTable(
-            name = "clothe_images",
-            joinColumns = @JoinColumn(name = "clothe_id"),
-            inverseJoinColumns = @JoinColumn(name = "image_id")
-    )
-    private Set<Image> images;*/
+    // Relación uno a muchos: una prenda puede tener varias imágenes.
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "clothe_id") // Esta columna se agregará en la tabla IMAGES
+    private Set<Image> images = new HashSet<>();
 }
