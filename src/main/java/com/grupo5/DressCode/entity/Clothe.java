@@ -61,3 +61,4 @@ public class Clothe {
     @JoinColumn(name = "clothe_id") // Esta columna se agregará en la tabla IMAGES
     private Set<Image> images = new HashSet<>();
 }
+
