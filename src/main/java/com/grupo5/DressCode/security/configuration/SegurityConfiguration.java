@@ -27,12 +27,16 @@ public class SegurityConfiguration {
 
                     // Endpoints sin autenticación
                     auth.requestMatchers("/auth/**").permitAll();
-                    auth.requestMatchers(HttpMethod.GET, "/clothe/**", "/category/**", "/color/**").permitAll(); // Añadido /color/**
+                    auth.requestMatchers(HttpMethod.GET, "/clothe/**", "/category/**", "/color/**", "/attribute/**").permitAll(); // Añadido /color/**
 
                     // Endpoints accesibles solo para ADMIN
                     auth.requestMatchers(HttpMethod.POST, "/category/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.PUT, "/category/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/category/**").hasRole("ADMIN");
+
+                    auth.requestMatchers(HttpMethod.POST, "/attribute/**").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT, "/attribute/**").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.DELETE, "/attribute/**").hasRole("ADMIN");
 
                     // Endpoints accesibles para ADMIN y USER
                     auth.requestMatchers(HttpMethod.PUT, "/user/**").hasAnyRole("ADMIN", "USER");
