@@ -1,9 +1,11 @@
 package com.grupo5.DressCode.service.impl;
 
 import com.grupo5.DressCode.entity.Attribute;
+import com.grupo5.DressCode.entity.Clothe;
 import com.grupo5.DressCode.repository.IAttributeRepository;
-import com.grupo5.DressCode.security.entity.User;
+import com.grupo5.DressCode.repository.IClotheRepository;
 import com.grupo5.DressCode.service.IAttributeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +14,11 @@ import java.util.Optional;
 @Service
 public class AttributeService implements IAttributeService {
     private final IAttributeRepository attributeRepository;
-    public AttributeService(IAttributeRepository attributeRepository){
+
+    @Autowired
+    private IClotheRepository clotheRepository;
+
+    public AttributeService(IAttributeRepository attributeRepository) {
         this.attributeRepository = attributeRepository;
     }
 
@@ -48,7 +54,24 @@ public class AttributeService implements IAttributeService {
     }
 
     @Override
-    public void deleteAttribute(Integer id){
-        attributeRepository.deleteById(id);
+    public void deleteAttribute(Integer id) {
+        Optional<Attribute> attributeOpt = attributeRepository.findById(id);
+        if (attributeOpt.isPresent()) {
+            Attribute attribute = attributeOpt.get();
+
+            // Buscar todas las prendas que contienen este atributo
+            List<Clothe> clothesWithAttribute = clotheRepository.findByAttributesContaining(attribute);
+
+            // Eliminar la referencia en cada prenda
+            for (Clothe clothe : clothesWithAttribute) {
+                clothe.getAttributes().remove(attribute);
+            }
+
+            // Guardar los cambios en las prendas antes de eliminar el atributo
+            clotheRepository.saveAll(clothesWithAttribute);
+
+            // Ahora sí, eliminar el atributo
+            attributeRepository.delete(attribute);
+        }
     }
 }
