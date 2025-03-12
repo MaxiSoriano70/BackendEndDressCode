@@ -22,4 +22,5 @@ public class ClothesDTO {
     private int colorID;
     // Campo para asociar imágenes existentes por su ID.
     private List<Integer> imageIds;
+    private List<Integer> attributeIds;
 }

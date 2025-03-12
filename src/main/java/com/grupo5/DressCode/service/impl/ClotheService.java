@@ -1,9 +1,7 @@
 package com.grupo5.DressCode.service.impl;
 
-import com.grupo5.DressCode.entity.Category;
-import com.grupo5.DressCode.entity.Clothe;
-import com.grupo5.DressCode.entity.Color;
-import com.grupo5.DressCode.entity.Image;
+import com.grupo5.DressCode.entity.*;
+import com.grupo5.DressCode.repository.IAttributeRepository;
 import com.grupo5.DressCode.repository.ICategoryRepository;
 import com.grupo5.DressCode.repository.IClotheRepository;
 import com.grupo5.DressCode.repository.IColorRepository;
@@ -25,6 +23,9 @@ public class ClotheService implements IClotheService {
 
     @Autowired
     private ICategoryRepository categoryRepository;
+
+    @Autowired
+    private IAttributeRepository attributeRepository;
 
     @Autowired
     private IImageService imageService;
@@ -60,6 +61,14 @@ public class ClotheService implements IClotheService {
                 imageOpt.ifPresent(image -> newClothe.getImages().add(image));
             }
         }
+
+        if (clothesDTO.getAttributeIds() != null) {
+            for (Integer attributeId : clothesDTO.getAttributeIds()) {
+                Optional<Attribute> attributeOpt = attributeRepository.findById(attributeId);
+                attributeOpt.ifPresent(attribute -> newClothe.getAttributes().add(attribute));
+            }
+        }
+
         return clotheRepository.save(newClothe);
     }
 
@@ -111,6 +120,15 @@ public class ClotheService implements IClotheService {
             for (Integer imageId : clothesDTO.getImageIds()) {
                 Optional<Image> imageOpt = imageService.searchForId(imageId);
                 imageOpt.ifPresent(image -> existingClothe.getImages().add(image));
+            }
+        }
+
+        // Actualizar atributos: eliminar los anteriores y agregar los nuevos
+        existingClothe.getAttributes().clear();
+        if (clothesDTO.getAttributeIds() != null) {
+            for (Integer attributeId : clothesDTO.getAttributeIds()) {
+                Optional<Attribute> attributeOpt = attributeRepository.findById(attributeId);
+                attributeOpt.ifPresent(attribute -> existingClothe.getAttributes().add(attribute));
             }
         }
 
