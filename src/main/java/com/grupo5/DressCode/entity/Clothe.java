@@ -60,5 +60,13 @@ public class Clothe {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "clothe_id") // Esta columna se agregará en la tabla IMAGES
     private Set<Image> images = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "clothe_attribute",
+            joinColumns = @JoinColumn(name = "clothe_id"),
+            inverseJoinColumns = @JoinColumn(name = "attribute_id")
+    )
+    private Set<Attribute> attributes = new HashSet<>();
 }
 
