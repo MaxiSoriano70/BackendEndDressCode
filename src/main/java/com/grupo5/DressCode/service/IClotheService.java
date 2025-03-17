@@ -1,19 +1,14 @@
 package com.grupo5.DressCode.service;
 
-import com.grupo5.DressCode.entity.Clothe;
-import com.grupo5.DressCode.dto.ClothesDTO;
+import com.grupo5.DressCode.dto.ClotheDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface IClotheService {
-    Clothe createClothe(ClothesDTO clothesDTO);
-    Optional<Clothe> searchForId(int id);
-    List<Clothe> searchAll();
-    Clothe updateClothe(int id, ClothesDTO clothesDTO);
+    ClotheDTO createClothe(ClotheDTO clotheDTO);
+    Optional<ClotheDTO> searchForId(int id);
+    List<ClotheDTO> searchAll();
+    ClotheDTO updateClothe(int id, ClotheDTO clotheDTO);
     void deleteClothe(Integer id);
-
-    List<ClothesDTO> listAllClothes();
-
-    ClothesDTO getClotheById(int id);
 }

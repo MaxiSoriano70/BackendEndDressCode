@@ -15,6 +15,10 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer categoryId;
     @Column(nullable = false)
-    private String categoryName;
+    private String name;
+    @Column(nullable = false)
+    private String description;
+    @Column(nullable = false)
+    private String categoryImagenUrl;
 }
 

@@ -1,7 +1,6 @@
 package com.grupo5.DressCode.controller;
 
-import com.grupo5.DressCode.entity.Attribute;
-import com.grupo5.DressCode.security.entity.User;
+import com.grupo5.DressCode.dto.AttributeDTO;
 import com.grupo5.DressCode.service.IAttributeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,35 +14,36 @@ import java.util.Optional;
 public class AttributeController {
     private final IAttributeService attributeService;
 
-    public AttributeController(IAttributeService attributeService){
+    public AttributeController(IAttributeService attributeService) {
         this.attributeService = attributeService;
     }
 
     @PostMapping
-    public ResponseEntity<Attribute> crearAtributo(@RequestBody Attribute attribute){
-        Attribute atributoCreado = attributeService.createAttribute(attribute);
-        if(atributoCreado == null){
+    public ResponseEntity<AttributeDTO> crearAtributo(@RequestBody AttributeDTO attributeDTO) {
+        AttributeDTO atributoCreado = attributeService.createAttribute(attributeDTO);
+        if (atributoCreado == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.CREATED).body(atributoCreado);
         }
     }
 
     @GetMapping
-    public ResponseEntity<List<Attribute>> traerTodos() {
-        return ResponseEntity.ok(attributeService.searchAll());
+    public ResponseEntity<List<AttributeDTO>> traerTodos() {
+        List<AttributeDTO> attributes = attributeService.searchAll();
+        return ResponseEntity.ok(attributes);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Attribute> buscarAtributoPorId(@PathVariable Integer id) {
-        Optional<Attribute> atributo = attributeService.searchForId(id);
+    public ResponseEntity<AttributeDTO> buscarAtributoPorId(@PathVariable Integer id) {
+        Optional<AttributeDTO> atributo = attributeService.searchForId(id);
         return atributo.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> actualizarAtributo(@PathVariable Integer id, @RequestBody Attribute attribute){
-        Optional<Attribute> attributeOptional = attributeService.updateAttribute(id, attribute);
+    public ResponseEntity<String> actualizarAtributo(@PathVariable Integer id, @RequestBody AttributeDTO attributeDTO) {
+        Optional<AttributeDTO> attributeOptional = attributeService.updateAttribute(id, attributeDTO);
         if (attributeOptional.isPresent()) {
             return ResponseEntity.ok("{\"message\": \"atributo modificado\"}");
         } else {
@@ -53,7 +53,7 @@ public class AttributeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> borrarAtributo(@PathVariable Integer id) {
-        Optional<Attribute> atributoOptional = attributeService.searchForId(id);
+        Optional<AttributeDTO> atributoOptional = attributeService.searchForId(id);
         if (atributoOptional.isPresent()) {
             attributeService.deleteAttribute(id);
             return ResponseEntity.ok("{\"message\": \"atributo eliminado\"}");

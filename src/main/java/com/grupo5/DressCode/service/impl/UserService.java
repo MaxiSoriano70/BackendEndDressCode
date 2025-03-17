@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,58 +16,87 @@ import java.util.stream.Collectors;
 public class UserService implements IUserService {
     @Autowired
     private IUserRepository userRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Override
-    public User createUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+    public UserDTO createUser(UserDTO userDTO) {
+        User user = new User();
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(passwordEncoder.encode("1234"));
+        user.setRole(userDTO.getRole());
+
+        User savedUser = userRepository.save(user);
+
+        return new UserDTO(
+                savedUser.getUsuarioId(),
+                savedUser.getFirstName(),
+                savedUser.getLastName(),
+                savedUser.getEmail(),
+                savedUser.getRole()
+        );
     }
+
     @Override
     public Optional<UserDTO> searchForId(int id) {
         return userRepository.findById(id)
                 .map(user -> new UserDTO(
-                        user.getUsuarioId(), // Se añade el ID
+                        user.getUsuarioId(),
                         user.getFirstName(),
                         user.getLastName(),
                         user.getEmail(),
-                        user.getRole() // Se añade el rol
+                        user.getRole()
                 ));
     }
+
     @Override
     public List<UserDTO> searchAll() {
         return userRepository.findAll().stream()
                 .map(user -> new UserDTO(
-                        user.getUsuarioId(), // Se añade el ID
+                        user.getUsuarioId(),
                         user.getFirstName(),
                         user.getLastName(),
                         user.getEmail(),
-                        user.getRole() // Se añade el rol
+                        user.getRole()
                 ))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<User> updateUser(int id, User user) {
+    public Optional<UserDTO> updateUser(int id, UserDTO userDTO) {
         Optional<User> userOpt = userRepository.findById(id);
         if (userOpt.isPresent()) {
             User existingUser = userOpt.get();
-            if (user.getFirstName() != null && !user.getFirstName().isEmpty()) {
-                existingUser.setFirstName(user.getFirstName());
+
+            if (userDTO.getFirstName() != null && !userDTO.getFirstName().isEmpty()) {
+                existingUser.setFirstName(userDTO.getFirstName());
             }
-            if (user.getLastName() != null && !user.getLastName().isEmpty()) {
-                existingUser.setLastName(user.getLastName());
+            if (userDTO.getLastName() != null && !userDTO.getLastName().isEmpty()) {
+                existingUser.setLastName(userDTO.getLastName());
             }
-            if (user.getEmail() != null && !user.getEmail().isEmpty()) {
-                existingUser.setEmail(user.getEmail());
+            if (userDTO.getEmail() != null && !userDTO.getEmail().isEmpty()) {
+                existingUser.setEmail(userDTO.getEmail());
             }
-            if (user.getRole() != null) {
-                existingUser.setRole(user.getRole());
+            if (userDTO.getRole() != null) {
+                existingUser.setRole(userDTO.getRole());
             }
+
             userRepository.save(existingUser);
+
+            return Optional.of(new UserDTO(
+                    existingUser.getUsuarioId(),
+                    existingUser.getFirstName(),
+                    existingUser.getLastName(),
+                    existingUser.getEmail(),
+                    existingUser.getRole()
+            ));
         }
-        return userOpt;
+        return Optional.empty();
     }
+
     @Override
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);

@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
-    private Integer id; // Campo añadido
+    private Integer id;
     private String firstName;
     private String lastName;
     private String email;
-    private ERol role; // Campo añadido para el rol
+    private ERol role;
 }

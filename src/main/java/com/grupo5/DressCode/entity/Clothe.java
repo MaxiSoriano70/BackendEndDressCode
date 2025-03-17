@@ -27,10 +27,10 @@ public class Clothe {
     @NotNull
     private String description;
 
-    // Puedes seguir usando el enum ESize si lo prefieres; aquí se usa String para simplificar.
     @Column(nullable = false)
     @NotNull
-    private String size;
+    @Enumerated(EnumType.STRING)
+    private ESize size;
 
     @Column(nullable = false)
     @NotNull
@@ -39,7 +39,7 @@ public class Clothe {
     @Column(nullable = false)
     @NotNull
     @Positive
-    private float price;
+    private Float price;
 
     @Column(nullable = false)
     @Min(0)
@@ -56,9 +56,8 @@ public class Clothe {
     @JoinColumn(name = "color_id", nullable = false)
     private Color color;
 
-    // Relación uno a muchos: una prenda puede tener varias imágenes.
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "clothe_id") // Esta columna se agregará en la tabla IMAGES
+    @JoinColumn(name = "clothe_id")
     private Set<Image> images = new HashSet<>();
 
     @ManyToMany
@@ -68,5 +67,11 @@ public class Clothe {
             inverseJoinColumns = @JoinColumn(name = "attribute_id")
     )
     private Set<Attribute> attributes = new HashSet<>();
-}
 
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private boolean isDeleted;
+
+    public void deleteLogically() {
+        this.isDeleted = true;
+    }
+}

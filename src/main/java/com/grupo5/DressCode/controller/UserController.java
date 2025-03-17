@@ -18,35 +18,35 @@ public class UserController {
     private IUserService userService;
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user){
-        User userToReturn = userService.createUser(user);
-        if(user == null){
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+        UserDTO createdUserDTO = userService.createUser(userDTO);
+        if (createdUserDTO == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }else {
-            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdUserDTO);
         }
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers(){
-        return ResponseEntity.ok(userService.searchAll());
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<UserDTO> users = userService.searchAll();
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Integer id){
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Integer id) {
         Optional<UserDTO> userDTO = userService.searchForId(id);
-        if(userDTO.isPresent()){
+        if (userDTO.isPresent()) {
             return ResponseEntity.ok(userDTO.get());
-        }
-        else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Integer id, @RequestBody User user){
-        Optional<User> userOptional = userService.updateUser(id, user);
-        if (userOptional.isPresent()) {
+    public ResponseEntity<String> updateUser(@PathVariable Integer id, @RequestBody UserDTO userDTO) {
+        Optional<UserDTO> updatedUserDTO = userService.updateUser(id, userDTO);
+        if (updatedUserDTO.isPresent()) {
             return ResponseEntity.ok("{\"message\": \"user updated\"}");
         } else {
             return new ResponseEntity<>("{\"message\": \"user not found\"}", HttpStatus.NOT_FOUND);
@@ -54,9 +54,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Integer id){
-        Optional<UserDTO> userOptional = userService.searchForId(id);
-        if (userOptional.isPresent()) {
+    public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
+        Optional<UserDTO> userDTO = userService.searchForId(id);
+        if (userDTO.isPresent()) {
             userService.deleteUser(id);
             return ResponseEntity.ok("{\"message\": \"user deleted\"}");
         } else {

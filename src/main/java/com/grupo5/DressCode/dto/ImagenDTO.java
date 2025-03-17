@@ -1,21 +1,15 @@
-package com.grupo5.DressCode.entity;
+package com.grupo5.DressCode.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "IMAGES")
-public class Image {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ImagenDTO {
     private Integer imagenId;
-    @Column(nullable = false)
     private String imageUrl;
 }

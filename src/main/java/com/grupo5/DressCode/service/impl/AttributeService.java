@@ -1,5 +1,6 @@
 package com.grupo5.DressCode.service.impl;
 
+import com.grupo5.DressCode.dto.AttributeDTO;
 import com.grupo5.DressCode.entity.Attribute;
 import com.grupo5.DressCode.entity.Clothe;
 import com.grupo5.DressCode.repository.IAttributeRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AttributeService implements IAttributeService {
@@ -23,34 +25,51 @@ public class AttributeService implements IAttributeService {
     }
 
     @Override
-    public Attribute createAttribute(Attribute attribute){
-        return  attributeRepository.save(attribute);
+    public AttributeDTO createAttribute(AttributeDTO attributeDTO) {
+        Attribute attribute = new Attribute();
+        attribute.setName(attributeDTO.getName());
+        attribute.setIconUrl(attributeDTO.getIconUrl());
+
+        Attribute savedAttribute = attributeRepository.save(attribute);
+
+        return new AttributeDTO(savedAttribute.getAttributeId(), savedAttribute.getName(), savedAttribute.getIconUrl());
     }
 
     @Override
-    public Optional<Attribute> searchForId(int id) {
-        return attributeRepository.findById(id);
+    public Optional<AttributeDTO> searchForId(int id) {
+        Optional<Attribute> attribute = attributeRepository.findById(id);
+        if (attribute.isPresent()) {
+            Attribute savedAttribute = attribute.get();
+            AttributeDTO attributeDTO = new AttributeDTO(savedAttribute.getAttributeId(), savedAttribute.getName(), savedAttribute.getIconUrl());
+            return Optional.of(attributeDTO);
+        }
+        return Optional.empty();
     }
 
     @Override
-    public List<Attribute> searchAll(){
-        return attributeRepository.findAll();
+    public List<AttributeDTO> searchAll() {
+        List<Attribute> attributes = attributeRepository.findAll();
+        return attributes.stream()
+                .map(attribute -> new AttributeDTO(attribute.getAttributeId(), attribute.getName(), attribute.getIconUrl()))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Attribute> updateAttribute(int id, Attribute attribute) {
-        Optional<Attribute> AttributeOpt = attributeRepository.findById(id);
-        if (AttributeOpt.isPresent()) {
-            Attribute existingAttribute = AttributeOpt.get();
-            if (attribute.getName() != null && !attribute.getName().isEmpty()) {
-                existingAttribute.setName(attribute.getName());
+    public Optional<AttributeDTO> updateAttribute(int id, AttributeDTO attributeDTO) {
+        Optional<Attribute> attributeOpt = attributeRepository.findById(id);
+        if (attributeOpt.isPresent()) {
+            Attribute existingAttribute = attributeOpt.get();
+            if (attributeDTO.getName() != null && !attributeDTO.getName().isEmpty()) {
+                existingAttribute.setName(attributeDTO.getName());
             }
-            if (attribute.getIconUrl() != null && !attribute.getIconUrl().isEmpty()) {
-                existingAttribute.setIconUrl(attribute.getIconUrl());
+            if (attributeDTO.getIconUrl() != null && !attributeDTO.getIconUrl().isEmpty()) {
+                existingAttribute.setIconUrl(attributeDTO.getIconUrl());
             }
             attributeRepository.save(existingAttribute);
+
+            return Optional.of(new AttributeDTO(existingAttribute.getAttributeId(), existingAttribute.getName(), existingAttribute.getIconUrl()));
         }
-        return AttributeOpt;
+        return Optional.empty();
     }
 
     @Override
@@ -58,20 +77,19 @@ public class AttributeService implements IAttributeService {
         Optional<Attribute> attributeOpt = attributeRepository.findById(id);
         if (attributeOpt.isPresent()) {
             Attribute attribute = attributeOpt.get();
-
             // Buscar todas las prendas que contienen este atributo
             List<Clothe> clothesWithAttribute = clotheRepository.findByAttributesContaining(attribute);
-
-            // Eliminar la referencia en cada prenda
+            // Marcar todas las prendas asociadas como eliminadas lógicamente
             for (Clothe clothe : clothesWithAttribute) {
-                clothe.getAttributes().remove(attribute);
+                clothe.deleteLogically();
             }
-
-            // Guardar los cambios en las prendas antes de eliminar el atributo
+            // Guardar los cambios en las prendas
             clotheRepository.saveAll(clothesWithAttribute);
-
-            // Ahora sí, eliminar el atributo
+            // Eliminar el atributo
             attributeRepository.delete(attribute);
+        } else {
+            throw new RuntimeException("Atributo no encontrado");
         }
     }
+
 }

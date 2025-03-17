@@ -1,193 +1,177 @@
 package com.grupo5.DressCode.service.impl;
 
+import com.grupo5.DressCode.dto.ClotheDTO;
+import com.grupo5.DressCode.dto.ImagenDTO;
 import com.grupo5.DressCode.entity.*;
 import com.grupo5.DressCode.repository.IAttributeRepository;
 import com.grupo5.DressCode.repository.ICategoryRepository;
 import com.grupo5.DressCode.repository.IClotheRepository;
 import com.grupo5.DressCode.repository.IColorRepository;
-import com.grupo5.DressCode.dto.ClothesDTO;
 import com.grupo5.DressCode.service.IClotheService;
 import com.grupo5.DressCode.service.IImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class ClotheService implements IClotheService {
     private final IClotheRepository clotheRepository;
+    private final IColorRepository colorRepository;
+    private final ICategoryRepository categoryRepository;
+    private final IAttributeRepository attributeRepository;
+    private final IImageService imageService;
 
     @Autowired
-    private IColorRepository colorRepository;
-
-    @Autowired
-    private ICategoryRepository categoryRepository;
-
-    @Autowired
-    private IAttributeRepository attributeRepository;
-
-    @Autowired
-    private IImageService imageService;
-
-    public ClotheService(IClotheRepository clotheRepository) {
+    public ClotheService(IClotheRepository clotheRepository, IColorRepository colorRepository,
+                         ICategoryRepository categoryRepository, IAttributeRepository attributeRepository,
+                         IImageService imageService) {
         this.clotheRepository = clotheRepository;
+        this.colorRepository = colorRepository;
+        this.categoryRepository = categoryRepository;
+        this.attributeRepository = attributeRepository;
+        this.imageService = imageService;
     }
 
     @Override
-    public Clothe createClothe(ClothesDTO clothesDTO) {
-        Optional<Category> categoryOpt = categoryRepository.findById(Integer.valueOf(clothesDTO.getCategoryName()));
-        if (!categoryOpt.isPresent()) {
-            throw new RuntimeException("Categoría no encontrada");
-        }
-        Optional<Color> colorOptional = colorRepository.findById(Integer.valueOf(clothesDTO.getColorName()));
-        if (colorOptional.isEmpty()) {
-            throw new RuntimeException("Color no encontrado");
-        }
+    public ClotheDTO createClothe(ClotheDTO clotheDTO) {
+        // Validar existencia de la categoría
+        Category category = categoryRepository.findById(clotheDTO.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+
+        // Validar existencia del color
+        Color color = colorRepository.findById(clotheDTO.getColorId())
+                .orElseThrow(() -> new RuntimeException("Color no encontrado"));
+
+        // Crear una nueva prenda
         Clothe newClothe = new Clothe();
-        newClothe.setSku(clothesDTO.getSku());
-        newClothe.setDescription(clothesDTO.getDescription());
-        newClothe.setSize(clothesDTO.getSize());
-        newClothe.setName(clothesDTO.getName());
-        newClothe.setPrice(clothesDTO.getPrice().floatValue());
-        newClothe.setStock(clothesDTO.getStock());
-        newClothe.setActive(clothesDTO.isActive());
-        newClothe.setCategory(categoryOpt.get());
-        newClothe.setColor(colorOptional.get());
-        // Asocia las imágenes según los IDs enviados.
-        if (clothesDTO.getImageUrls() != null) {
-            for (String imageId : clothesDTO.getImageUrls()) {
-                Optional<Image> imageOpt = imageService.searchForId(Integer.parseInt(imageId));
-                imageOpt.ifPresent(image -> newClothe.getImages().add(image));
-            }
+        newClothe.setSku(clotheDTO.getSku());
+        newClothe.setDescription(clotheDTO.getDescription());
+        newClothe.setSize(clotheDTO.getSize());
+        newClothe.setName(clotheDTO.getName());
+        newClothe.setPrice(clotheDTO.getPrice());
+        newClothe.setStock(clotheDTO.getStock());
+        newClothe.setActive(clotheDTO.isActive());
+        newClothe.setCategory(category);
+        newClothe.setColor(color);
+
+        // Agregar imágenes
+        if (clotheDTO.getImageUrls() != null) {
+            clotheDTO.getImageUrls().forEach(imageUrl -> {
+                Image image = new Image();
+                image.setImageUrl(imageUrl);
+                newClothe.getImages().add(image);
+            });
         }
 
-        if (clothesDTO.getAttributeIds() != null) {
-            for (Integer attributeId : clothesDTO.getAttributeIds()) {
+        // Agregar atributos
+        if (clotheDTO.getAttributeIds() != null) {
+            clotheDTO.getAttributeIds().forEach(attributeId -> {
                 Optional<Attribute> attributeOpt = attributeRepository.findById(attributeId);
-                attributeOpt.ifPresent(attribute -> newClothe.getAttributes().add(attribute));
-            }
+                attributeOpt.ifPresent(newClothe.getAttributes()::add);
+            });
         }
 
-        return clotheRepository.save(newClothe);
+        // Guardar la prenda
+        Clothe savedClothe = clotheRepository.save(newClothe);
+
+        return convertToDTO(savedClothe);
     }
 
     @Override
-    public Optional<Clothe> searchForId(int id) {
-        return clotheRepository.findById(id);
+    public Optional<ClotheDTO> searchForId(int id) {
+        return clotheRepository.findByClotheIdAndIsDeletedFalse(id)
+                .map(this::convertToDTO);
     }
 
     @Override
-    public List<Clothe> searchAll() {
-        return clotheRepository.findAll();
+    public List<ClotheDTO> searchAll() {
+        return clotheRepository.findAll().stream()
+                .filter(clothe -> !clothe.isDeleted()) // Filtrar prendas eliminadas lógicamente
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Clothe updateClothe(int id, ClothesDTO clothesDTO) {
-        Optional<Clothe> clotheOpt = clotheRepository.findById(id);
-        if (!clotheOpt.isPresent()) {
-            throw new RuntimeException("Prenda no encontrada");
+    public ClotheDTO updateClothe(int id, ClotheDTO clotheDTO) {
+        // Buscar la prenda por ID, asegurándonos de que no esté eliminada lógicamente
+        Clothe existingClothe = clotheRepository.findByClotheIdAndIsDeletedFalse(id)
+                .orElseThrow(() -> new RuntimeException("Prenda no encontrada o eliminada lógicamente"));
+
+        // Actualizar la prenda
+        if (clotheDTO.getSku() != null && !clotheDTO.getSku().isEmpty()) {
+            existingClothe.setSku(clotheDTO.getSku());
+        }
+        if (clotheDTO.getDescription() != null && !clotheDTO.getDescription().isEmpty()) {
+            existingClothe.setDescription(clotheDTO.getDescription());
+        }
+        if (clotheDTO.getSize() != null) {
+            existingClothe.setSize(clotheDTO.getSize());
+        }
+        if (clotheDTO.getName() != null && !clotheDTO.getName().isEmpty()) {
+            existingClothe.setName(clotheDTO.getName());
+        }
+        if (clotheDTO.getPrice() != null && clotheDTO.getPrice() > 0) {
+            existingClothe.setPrice(clotheDTO.getPrice());
+        }
+        if (clotheDTO.getStock() != null) {
+            existingClothe.setStock(clotheDTO.getStock());
+        }
+        existingClothe.setActive(clotheDTO.isActive());
+
+        // Actualizar categoría y color
+        categoryRepository.findById(clotheDTO.getCategoryId()).ifPresent(existingClothe::setCategory);
+        colorRepository.findById(clotheDTO.getColorId()).ifPresent(existingClothe::setColor);
+
+        // Actualizar imágenes
+        if (clotheDTO.getImageUrls() != null) {
+            existingClothe.getImages().clear(); // Limpiar imágenes anteriores
+            clotheDTO.getImageUrls().forEach(imageUrl -> {
+                Image image = new Image();
+                image.setImageUrl(imageUrl);
+                existingClothe.getImages().add(image);
+            });
         }
 
-        Clothe existingClothe = clotheOpt.get();
-
-        // Actualizar datos básicos
-        existingClothe.setSku(clothesDTO.getSku());
-        existingClothe.setDescription(clothesDTO.getDescription());
-        existingClothe.setSize(clothesDTO.getSize());
-        existingClothe.setName(clothesDTO.getName());
-        existingClothe.setPrice(clothesDTO.getPrice().floatValue());
-        existingClothe.setStock(clothesDTO.getStock());
-        existingClothe.setActive(clothesDTO.isActive());
-
-        // Validar y actualizar categoría
-        Optional<Category> categoryOpt = categoryRepository.findById(Integer.valueOf(clothesDTO.getCategoryName()));
-        if (!categoryOpt.isPresent()) {
-            throw new RuntimeException("Categoría no encontrada");
-        }
-        existingClothe.setCategory(categoryOpt.get());
-
-        // Validar y actualizar color
-        Optional<Color> colorOpt = colorRepository.findById(Integer.valueOf(clothesDTO.getColorName()));
-        if (!colorOpt.isPresent()) {
-            throw new RuntimeException("Color no encontrado");
-        }
-        existingClothe.setColor(colorOpt.get());
-
-        // Actualizar imágenes: eliminar las anteriores y agregar las nuevas
-        existingClothe.getImages().clear();
-        if (clothesDTO.getImageUrls() != null) {
-            for (String imageId : clothesDTO.getImageUrls()) {
-                Optional<Image> imageOpt = imageService.searchForId(Integer.parseInt(imageId));
-                imageOpt.ifPresent(image -> existingClothe.getImages().add(image));
-            }
+        // Actualizar atributos
+        if (clotheDTO.getAttributeIds() != null) {
+            Set<Attribute> updatedAttributes = new HashSet<>();
+            clotheDTO.getAttributeIds().forEach(attributeId -> {
+                attributeRepository.findById(attributeId).ifPresent(updatedAttributes::add);
+            });
+            existingClothe.setAttributes(updatedAttributes);
         }
 
-        // Actualizar atributos: eliminar los anteriores y agregar los nuevos
-        existingClothe.getAttributes().clear();
-        if (clothesDTO.getAttributeIds() != null) {
-            for (Integer attributeId : clothesDTO.getAttributeIds()) {
-                Optional<Attribute> attributeOpt = attributeRepository.findById(attributeId);
-                attributeOpt.ifPresent(attribute -> existingClothe.getAttributes().add(attribute));
-            }
-        }
+        // Guardar la prenda actualizada
+        Clothe updatedClothe = clotheRepository.save(existingClothe);
 
-        // Guardar cambios en la base de datos
-        return clotheRepository.save(existingClothe);
+        return convertToDTO(updatedClothe);
     }
-
 
     @Override
     public void deleteClothe(Integer id) {
-        clotheRepository.deleteById(id);
+        Clothe clothe = clotheRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Prenda no encontrada"));
+        clothe.deleteLogically(); // Eliminación lógica
+        clotheRepository.save(clothe);
     }
 
-    // Método para convertir Clothe a ClotheDTO
-    public ClothesDTO convertToDTO(Clothe clothe) {
-        ClothesDTO clotheDTO = new ClothesDTO();
-        clotheDTO.setSku(clothe.getSku());
-        clotheDTO.setDescription(clothe.getDescription());
-        clotheDTO.setSize(clothe.getSize());
-        clotheDTO.setName(clothe.getName());
-        clotheDTO.setPrice((double) clothe.getPrice());
-        clotheDTO.setStock(clothe.getStock());
-        clotheDTO.setActive(clothe.isActive());
-        clotheDTO.setCategoryName(String.valueOf(clothe.getCategory().getCategoryId()));  // Asumiendo que tienes un getId() en Category
-        clotheDTO.setColorName(String.valueOf(clothe.getColor().getColorId()));  // Asumiendo que tienes un getId() en Color
-
-        // Si las imágenes están asociadas a la prenda, mapear los IDs de las imágenes.
-        if (clothe.getImages() != null) {
-            List<String> imageIds = clothe.getImages().stream()
-                    .map(image -> String.valueOf(image.getImagenId()))  // Asumiendo que Image tiene un método getId()
-                    .collect(Collectors.toList());
-            clotheDTO.setImageUrls((Set<String>) imageIds);
-        }
-
-        return clotheDTO;
+    private ClotheDTO convertToDTO(Clothe clothe) {
+        return new ClotheDTO(
+                clothe.getClotheId(),
+                clothe.getSku(),
+                clothe.getDescription(),
+                clothe.getSize(),
+                clothe.getName(),
+                clothe.getPrice(),
+                clothe.getStock(),
+                clothe.isActive(),
+                clothe.getCategory().getCategoryId(),
+                clothe.getColor().getColorId(),
+                clothe.getImages().stream().map(Image::getImageUrl).collect(Collectors.toSet()),
+                clothe.getAttributes().stream().map(Attribute::getAttributeId).collect(Collectors.toSet()),
+                clothe.isDeleted()
+        );
     }
-
-    @Override
-    public List<ClothesDTO> listAllClothes() {
-        // Obtener todas las prendas desde el repositorio
-        List<Clothe> prendas = clotheRepository.findAll();
-
-        // Convertir cada prenda a su DTO correspondiente
-        return prendas.stream()
-                .map(this::convertToDTO)  // Usamos convertToDTO para convertir cada prenda
-                .collect(Collectors.toList());
-    }
-    @Override
-    public ClothesDTO getClotheById(int id) {
-        // Buscar la prenda por ID
-        Optional<Clothe> clotheOpt = clotheRepository.findById(id);
-        if (!clotheOpt.isPresent()) {
-            throw new RuntimeException("Prenda no encontrada");
-        }
-
-        // Convertir la prenda a ClothesDTO y devolverlo
-        return convertToDTO(clotheOpt.get());
-    }
-
 }
