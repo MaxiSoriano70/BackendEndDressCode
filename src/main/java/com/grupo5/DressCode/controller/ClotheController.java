@@ -60,4 +60,19 @@ public class ClotheController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"Prenda no encontrada\"}");
         }
     }
+
+    /*@GetMapping("/search")
+    public ResponseEntity<List<Object[]>> searchClothes(@RequestParam String name) {
+        name = name.trim();  // Elimina espacios y saltos de línea antes de buscar
+        System.out.println("Buscando ropa con nombre: '" + name + "'");  // Verifica que name esté limpio
+        List<Object[]> clothes = clotheService.searchName(name);
+        return new ResponseEntity<>(clothes, HttpStatus.OK);
+    }*/
+    @GetMapping("/search")
+    public ResponseEntity<List<ClotheDTO>> searchClothes(@RequestParam String name) {
+        name = name.trim();
+        List<ClotheDTO> clothes = clotheService.searchName(name);
+        return new ResponseEntity<>(clothes, HttpStatus.OK);
+    }
+
 }

@@ -11,4 +11,6 @@ public interface IClotheService {
     List<ClotheDTO> searchAll();
     ClotheDTO updateClothe(int id, ClotheDTO clotheDTO);
     void deleteClothe(Integer id);
+    /*List<Object[]> searchName(String name);*/
+    List<ClotheDTO> searchName(String name);
 }

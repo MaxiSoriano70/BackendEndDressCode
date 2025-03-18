@@ -157,6 +157,44 @@ public class ClotheService implements IClotheService {
         clotheRepository.save(clothe);
     }
 
+    /*public List<Object[]> searchName(String name) {
+        List<Object[]> clothes = clotheRepository.findClotheIdsAndNamesByName(name);
+        return clothes;
+    }*/
+
+    public List<ClotheDTO> searchName(String name) {
+        // Log para verificar el valor de "name"
+        System.out.println("Searching for name: " + name);
+
+        List<Clothe> clothes = clotheRepository.findByNameContainingIgnoreCase(name);
+        if (clothes.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return clothes.stream()
+                .map(clothe -> new ClotheDTO(
+                        clothe.getClotheId(),
+                        clothe.getSku(),
+                        clothe.getDescription(),
+                        clothe.getSize(),
+                        clothe.getName(),
+                        clothe.getPrice(),
+                        clothe.getStock(),
+                        clothe.isActive(),
+                        clothe.getCategory() != null ? clothe.getCategory().getCategoryId() : null,
+                        clothe.getColor() != null ? clothe.getColor().getColorId() : null,
+                        clothe.getImages().stream()
+                                .map(Image::getImageUrl)
+                                .collect(Collectors.toSet()),
+                        clothe.getAttributes().stream()
+                                .map(attr -> attr.getAttributeId())
+                                .collect(Collectors.toSet()),
+                        clothe.isDeleted()
+                ))
+                .collect(Collectors.toList());
+    }
+
+
     private ClotheDTO convertToDTO(Clothe clothe) {
         return new ClotheDTO(
                 clothe.getClotheId(),

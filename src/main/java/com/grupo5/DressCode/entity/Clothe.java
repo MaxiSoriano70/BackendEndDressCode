@@ -32,7 +32,7 @@ public class Clothe {
     @Enumerated(EnumType.STRING)
     private ESize size;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @NotNull
     private String name;
 
