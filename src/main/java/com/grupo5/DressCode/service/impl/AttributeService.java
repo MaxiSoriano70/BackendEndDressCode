@@ -81,6 +81,7 @@ public class AttributeService implements IAttributeService {
             List<Clothe> clothesWithAttribute = clotheRepository.findByAttributesContaining(attribute);
             // Marcar todas las prendas asociadas como eliminadas lógicamente
             for (Clothe clothe : clothesWithAttribute) {
+                clothe.getAttributes().remove(attribute);
                 clothe.deleteLogically();
             }
             // Guardar los cambios en las prendas

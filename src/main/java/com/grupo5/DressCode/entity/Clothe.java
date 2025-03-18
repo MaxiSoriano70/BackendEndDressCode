@@ -49,11 +49,11 @@ public class Clothe {
     private boolean active;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id", nullable = true)
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "color_id", nullable = false)
+    @JoinColumn(name = "color_id", nullable = true)
     private Color color;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

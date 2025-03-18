@@ -74,6 +74,7 @@ public class ColorService implements IColorService {
         // Marcar todas las prendas asociadas como eliminadas lógicamente
         for (Clothe clothe : clothesWithColor) {
             clothe.deleteLogically();
+            clothe.setColor(null);
         }
         // Guardar los cambios en las prendas
         clotheRepository.saveAll(clothesWithColor);

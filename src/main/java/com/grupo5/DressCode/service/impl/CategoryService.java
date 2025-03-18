@@ -81,6 +81,7 @@ public class CategoryService implements ICategoryService {
         List<Clothe> clothesWithCategory = clotheRepository.findByCategory(category);
         // Marcar todas las prendas asociadas como eliminadas lógicamente
         for (Clothe clothe : clothesWithCategory) {
+            clothe.setCategory(null);
             clothe.deleteLogically();
         }
         // Guardar los cambios en las prendas
