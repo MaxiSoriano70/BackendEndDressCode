@@ -1,6 +1,7 @@
 package com.grupo5.DressCode.service;
 
 import com.grupo5.DressCode.dto.ClotheDTO;
+import com.grupo5.DressCode.dto.UserDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,4 +14,5 @@ public interface IClotheService {
     void deleteClothe(Integer id);
     /*List<Object[]> searchName(String name);*/
     List<ClotheDTO> searchName(String name);
+
 }

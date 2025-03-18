@@ -1,7 +1,6 @@
 package com.grupo5.DressCode.controller;
 
 import com.grupo5.DressCode.dto.UserDTO;
-import com.grupo5.DressCode.security.entity.User;
 import com.grupo5.DressCode.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -61,6 +60,28 @@ public class UserController {
             return ResponseEntity.ok("{\"message\": \"user deleted\"}");
         } else {
             return new ResponseEntity<>("{\"message\": \"user not found\"}", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // Agregar favorito
+    @PostMapping("/{userId}/favorite/{clotheId}")
+    public ResponseEntity<UserDTO> addFavorite(@PathVariable Integer userId, @PathVariable Integer clotheId) {
+        Optional<UserDTO> updatedUserDTO = userService.addFavorite(userId, clotheId);
+        if (updatedUserDTO.isPresent()) {
+            return ResponseEntity.ok(updatedUserDTO.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    // Eliminar favorito
+    @DeleteMapping("/{userId}/favorite/{clotheId}")
+    public ResponseEntity<UserDTO> removeFavorite(@PathVariable Integer userId, @PathVariable Integer clotheId) {
+        Optional<UserDTO> updatedUserDTO = userService.removeFavorite(userId, clotheId);
+        if (updatedUserDTO.isPresent()) {
+            return ResponseEntity.ok(updatedUserDTO.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 }

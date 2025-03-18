@@ -12,4 +12,6 @@ public interface IUserService {
     List<UserDTO> searchAll();
     Optional<UserDTO> updateUser(int id, UserDTO userDTO);
     void deleteUser(Integer id);
+    Optional<UserDTO> addFavorite(int userId, int clotheId);
+    Optional<UserDTO> removeFavorite(int userId, int clotheId);
 }
