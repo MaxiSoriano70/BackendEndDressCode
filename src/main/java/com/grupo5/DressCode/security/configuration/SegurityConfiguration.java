@@ -63,6 +63,17 @@ public class SegurityConfiguration {
                     auth.requestMatchers(HttpMethod.PUT, "/imagen/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/imagen/**").hasRole("ADMIN");
 
+                    auth.requestMatchers(HttpMethod.POST, "/reservations/**").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers(HttpMethod.PUT, "/reservations/**").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers(HttpMethod.DELETE, "/reservations/**").hasAnyRole("ADMIN", "USER");
+
+                    // Endpoints accesibles para ADMIN y USER (buscar por id)
+                    auth.requestMatchers(HttpMethod.GET, "/reservations/{id}").hasAnyRole("ADMIN", "USER");
+
+                    // Endpoints específicos solo para ADMIN
+                    auth.requestMatchers(HttpMethod.PUT, "/reservations/{id}/confirm-payment").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.DELETE, "/reservations/cancel-pending").hasRole("ADMIN");
+
                     // Cualquier otra solicitud debe estar autenticada
                     auth.anyRequest().authenticated();
                 })
