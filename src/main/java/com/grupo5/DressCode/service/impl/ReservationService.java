@@ -38,11 +38,9 @@ public class ReservationService implements IReservationService {
     private IReservationItemRepository reservationItemRepository;
 
     public ReservationDTO createReservation(ReservationDTO reservationDTO) {
-        // Obtener el usuario
         User user = userRepository.findById(reservationDTO.getUserId())
                 .orElseThrow(() -> new RuntimeException("User no encontrado"));
 
-        // Crear una nueva entidad Reservation
         Reservation reservation = new Reservation();
         reservation.setUser(user);
         reservation.setStartDate(reservationDTO.getStartDate());
@@ -50,36 +48,44 @@ public class ReservationService implements IReservationService {
         reservation.setStatus(EReservationStatus.PENDIENTE);
         reservation.setPaid(false);
 
-        // Calcular la cantidad de días de alquiler
-        long rentalDays = java.time.Duration.between(reservation.getStartDate().atStartOfDay(), reservation.getEndDate().atStartOfDay()).toDays();
+        long rentalDays = java.time.Duration.between(
+                reservation.getStartDate().atStartOfDay(),
+                reservation.getEndDate().atStartOfDay()
+        ).toDays();
 
-        // Agregar los items a la reserva
         Set<ReservationItem> reservationItems = new HashSet<>();
         for (ReservationItemDTO itemDTO : reservationDTO.getItems()) {
             Clothe clothe = clotheRepository.findById(itemDTO.getClotheId())
                     .orElseThrow(() -> new RuntimeException("Clothe no encontrada"));
 
+            // Validaciones de eliminación lógica y disponibilidad
+            if (clothe.isDeleted()) {
+                throw new RuntimeException("La prenda " + clothe.getName() + " está eliminada y no puede reservarse.");
+            }
+            if (!clothe.isActive()) {
+                throw new RuntimeException("La prenda " + clothe.getName() + " no está disponible para reservar.");
+            }
+
             ReservationItem item = new ReservationItem();
             item.setClothe(clothe);
-            item.setPrice(clothe.getPrice()); // Precio de la prenda
-            item.setRentalDays((int) rentalDays); // Establecer la cantidad de días de alquiler
+            item.setPrice(clothe.getPrice());
+            item.setRentalDays((int) rentalDays);
             item.setReservation(reservation);
 
             reservationItems.add(item);
+
+            clothe.setActive(false);
+            clotheRepository.save(clothe);
         }
 
-        // Establecer los items en la reserva
         reservation.setItems(reservationItems);
-
-        // Calcular el precio total de la reserva
         reservation.calculateTotalPrice();
 
-        // Guardar la reserva en la base de datos
         Reservation savedReservation = reservationRepository.save(reservation);
 
-        // Convertir la entidad a DTO y devolver
         return modelMapper.map(savedReservation, ReservationDTO.class);
     }
+
 
     @Override
     public Optional<ReservationDTO> searchForId(int id) {
@@ -100,7 +106,6 @@ public class ReservationService implements IReservationService {
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reservation not found"));
 
-        // Actualizar los datos básicos de la reserva
         if (reservationDTO.getStartDate() != null) {
             reservation.setStartDate(reservationDTO.getStartDate());
         }
@@ -112,7 +117,6 @@ public class ReservationService implements IReservationService {
         }
         reservation.setPaid(reservationDTO.isPaid());
 
-        // Calcular los días de alquiler
         long rentalDays = java.time.Duration.between(
                 reservation.getStartDate().atStartOfDay(),
                 reservation.getEndDate().atStartOfDay()
@@ -120,59 +124,78 @@ public class ReservationService implements IReservationService {
 
         Set<ReservationItem> updatedItems = new HashSet<>();
         Set<Integer> updatedItemIds = new HashSet<>();
+        Set<Clothe> removedClothes = new HashSet<>(reservation.getItems().stream().map(ReservationItem::getClothe).toList());
 
-        // Procesar los items del DTO
         for (ReservationItemDTO itemDTO : reservationDTO.getItems()) {
             Optional<ReservationItem> existingItemOpt = reservation.getItems().stream()
                     .filter(item -> item.getClothe().getClotheId().equals(itemDTO.getClotheId()))
                     .findFirst();
 
             if (existingItemOpt.isPresent()) {
-                // Si el item ya existe, actualiza los valores
                 ReservationItem existingItem = existingItemOpt.get();
                 existingItem.setPrice(itemDTO.getPrice() != null ? itemDTO.getPrice() : existingItem.getPrice());
                 existingItem.setRentalDays((int) rentalDays);
                 updatedItems.add(existingItem);
                 updatedItemIds.add(existingItem.getIdReservationItem());
+
+                removedClothes.remove(existingItem.getClothe());
             } else {
-                // Si el item no existe, crea uno nuevo y asegúrate de establecer la relación con Reservation
                 Clothe clothe = clotheRepository.findById(itemDTO.getClotheId())
                         .orElseThrow(() -> new RuntimeException("Clothe not found"));
+
+                if (clothe.isDeleted()) {
+                    throw new RuntimeException("La prenda " + clothe.getName() + " está eliminada y no puede reservarse.");
+                }
+                if (!clothe.isActive()) {
+                    throw new RuntimeException("La prenda " + clothe.getName() + " no está disponible para reservar.");
+                }
+
+                clothe.setActive(false);
+                clotheRepository.save(clothe);
 
                 ReservationItem newItem = new ReservationItem();
                 newItem.setClothe(clothe);
                 newItem.setPrice(clothe.getPrice());
                 newItem.setRentalDays((int) rentalDays);
-                newItem.setReservation(reservation); // Asegura la relación con la reserva
+                newItem.setReservation(reservation);
 
                 updatedItems.add(newItem);
             }
         }
 
-        // Eliminar los items que ya no están en la lista del DTO
         reservation.getItems().removeIf(item -> {
             boolean shouldRemove = !updatedItemIds.contains(item.getIdReservationItem());
             if (shouldRemove) {
-                item.setReservation(null);  // Evita problemas de integridad referencial
+                item.setReservation(null);
+                removedClothes.add(item.getClothe());
             }
             return shouldRemove;
         });
 
-        // Asignar los items actualizados
+        for (Clothe removedClothe : removedClothes) {
+            removedClothe.setActive(true);
+            clotheRepository.save(removedClothe);
+        }
+
         reservation.getItems().clear();
         reservation.getItems().addAll(updatedItems);
 
-        // Calcular el precio total de la reserva
         reservation.calculateTotalPrice();
 
-        // Guardar la reserva actualizada
         reservationRepository.save(reservation);
     }
 
     @Override
     public void deleteReservation(Integer id) {
         Reservation reservation = reservationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Reservacion no encontrada"));
+                .orElseThrow(() -> new RuntimeException("Reservación no encontrada"));
+
+        for (ReservationItem item : reservation.getItems()) {
+            Clothe clothe = item.getClothe();
+            clothe.setActive(true);
+            clotheRepository.save(clothe);
+        }
+
         reservationRepository.delete(reservation);
     }
 
@@ -203,20 +226,28 @@ public class ReservationService implements IReservationService {
         // Obtener la fecha y hora actual
         LocalDateTime now = LocalDateTime.now();
 
-        // Recorremos todas las reservas pendientes
         for (Reservation reservation : pendingReservations) {
             // Convertir la fecha de inicio a LocalDateTime (asumiendo que es LocalDate)
-            LocalDateTime startDateTime = reservation.getStartDate().atStartOfDay(); // Asumir que la fecha es a las 00:00
+            LocalDateTime startDateTime = reservation.getStartDate().atStartOfDay();
 
-            // Calcular la duración en horas
+            // Calcular la duración en horas desde la fecha de inicio
             long hoursSinceCreation = java.time.Duration.between(startDateTime, now).toHours();
 
-            // Solo cancelar si han pasado más de 24 horas y si no está confirmada o pagada
+            // Solo cancelar si han pasado más de 24 horas y la reserva no está pagada
             if (hoursSinceCreation > 24 && !reservation.isPaid()) {
+                // Cambiar el estado de la reserva a CANCELADO
                 reservation.setStatus(EReservationStatus.CANCELADO);
-                reservationRepository.save(reservation); // Guardamos el estado actualizado
+
+                // Reactivar las prendas asociadas a la reserva
+                for (ReservationItem item : reservation.getItems()) {
+                    Clothe clothe = item.getClothe();
+                    clothe.setActive(true);
+                    clotheRepository.save(clothe);
+                }
+
+                // Guardamos el estado actualizado de la reserva
+                reservationRepository.save(reservation);
             }
         }
     }
-
 }
