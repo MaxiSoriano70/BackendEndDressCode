@@ -71,9 +71,9 @@ public class SegurityConfiguration {
                     auth.requestMatchers(HttpMethod.GET, "/reservations/{id}").hasAnyRole("ADMIN", "USER");
 
                     // Endpoints específicos solo para ADMIN
-                    auth.requestMatchers(HttpMethod.PUT, "/reservations/{id}/confirm-payment").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT, "/reservations/{id}/confirm-payment").hasAnyRole("ADMIN", "USER");
                     auth.requestMatchers(HttpMethod.DELETE, "/reservations/cancel-pending").hasRole("ADMIN");
-
+                    auth.requestMatchers(HttpMethod.PUT, "/reservations/{id}/return-clothe").hasRole("ADMIN");
                     // Cualquier otra solicitud debe estar autenticada
                     auth.anyRequest().authenticated();
                 })

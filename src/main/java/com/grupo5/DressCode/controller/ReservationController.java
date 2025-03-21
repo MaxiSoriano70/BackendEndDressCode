@@ -54,4 +54,9 @@ public class ReservationController {
         reservationService.cancelPendingReservations();
         return ResponseEntity.noContent().build();
     }
+    @PutMapping("/{id}/return-clothe")
+    public ResponseEntity<Void> processReturn(@PathVariable int id) {
+        reservationService.processReturn(id);
+        return ResponseEntity.noContent().build();
+    }
 }

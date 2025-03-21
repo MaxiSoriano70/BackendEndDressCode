@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -250,4 +251,58 @@ public class ReservationService implements IReservationService {
             }
         }
     }
+    @Override
+    public void processReturn(int reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new RuntimeException("Reservación no encontrada"));
+
+        // Verificar que el estado de la reserva sea "CONFIRMADO"
+        if (reservation.getStatus() != EReservationStatus.CONFIRMADO) {
+            throw new RuntimeException("La reservación no está confirmada para ser procesada.");
+        }
+
+        // Verificar que el pago haya sido realizado (isPaid == true)
+        if (!reservation.isPaid()) {
+            throw new RuntimeException("La reservación no ha sido pagada. No se puede procesar la devolución.");
+        }
+
+        LocalDate today =
+                LocalDate.now
+                        ();
+        reservation.setReturnDate(today);
+
+        // Convertir las fechas a LocalDateTime con inicio del día (00:00:00) para comparación precisa
+        LocalDateTime endDateTime = reservation.getEndDate().atStartOfDay(); // Fin de la reserva a las 00:00:00
+        LocalDateTime todayStartOfDay = today.atStartOfDay(); // Hoy a las 00:00:00
+
+        // Si la devolución se realiza antes de la fecha de fin, aplicar un descuento del 10%
+        if (todayStartOfDay.isBefore(endDateTime)) {
+            float discount = reservation.getTotalPrice() * 0.10f; // 10% descuento
+            reservation.setTotalPrice(reservation.getTotalPrice() - discount);
+        }
+        // Si la devolución se realiza después de la fecha de fin, aplicar un recargo del 15%
+        else if (todayStartOfDay.isAfter(endDateTime)) {
+            float surcharge = reservation.getTotalPrice() * 0.15f; // 15% recargo
+            reservation.setTotalPrice(reservation.getTotalPrice() + surcharge);
+        }
+
+        // Si se devuelve en la fecha pactada, el precio permanece igual
+        // No es necesario modificar el precio en este caso.
+
+        // Reactivar las prendas asociadas a la reserva
+        for (ReservationItem item : reservation.getItems()) {
+            Clothe clothe = item.getClothe();
+            clothe.setActive(true);
+
+            clotheRepository.save
+                    (clothe);
+        }
+
+        // Cambiar el estado de la reserva a COMPLETADO
+        reservation.setStatus(EReservationStatus.COMPLETADO);
+
+        reservationRepository.save
+                (reservation);
+    }
+
 }
