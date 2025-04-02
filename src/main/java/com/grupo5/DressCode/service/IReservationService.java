@@ -13,5 +13,6 @@ public interface IReservationService {
     void deleteReservation(Integer id);
     void confirmReservationPayment(int reservationId);
     void cancelPendingReservations();
-    void processReturn(int reservationId);
+    void processReturn(int reservationId, int clotheId);
+    void removeItemFromReservation(int reservationId, int clotheId);
 }

@@ -17,7 +17,6 @@ public class ClotheDTO {
     private ESize size;
     private String name;
     private Float price;
-    private Integer stock;
     private boolean active;
     private Integer categoryId;
     private Integer colorId;

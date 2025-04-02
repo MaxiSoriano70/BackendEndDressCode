@@ -41,10 +41,6 @@ public class Clothe {
     @Positive
     private Float price;
 
-    @Column(nullable = false)
-    @Min(0)
-    private Integer stock;
-
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
     private boolean active;
 

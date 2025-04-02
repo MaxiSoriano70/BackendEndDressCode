@@ -54,9 +54,15 @@ public class ReservationController {
         reservationService.cancelPendingReservations();
         return ResponseEntity.noContent().build();
     }
-    @PutMapping("/{id}/return-clothe")
-    public ResponseEntity<Void> processReturn(@PathVariable int id) {
-        reservationService.processReturn(id);
+    @PutMapping("/{reservationId}/return-clothe/{clotheId}")
+    public ResponseEntity<Void> processReturn(@PathVariable int reservationId, @PathVariable int clotheId) {
+        reservationService.processReturn(reservationId, clotheId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{reservationId}/item/{clotheId}")
+    public ResponseEntity<Void> removeItem(@PathVariable int reservationId, @PathVariable int clotheId) {
+        reservationService.removeItemFromReservation(reservationId, clotheId);
         return ResponseEntity.noContent().build();
     }
 }

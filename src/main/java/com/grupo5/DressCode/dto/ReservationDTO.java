@@ -17,9 +17,10 @@ public class ReservationDTO {
     private Integer reservationId;
     private Integer userId;
     private Set<ReservationItemDTO> items;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate date;
     private Float totalPrice;
+    private Float surcharge;
+    private Float refund;
     private EReservationStatus status;
     private boolean isPaid;
 }

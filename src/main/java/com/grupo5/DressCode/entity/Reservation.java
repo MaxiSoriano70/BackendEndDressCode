@@ -31,16 +31,16 @@ public class Reservation {
     private Set<ReservationItem> items = new HashSet<>();
 
     @Column(nullable = false)
-    private LocalDate startDate;
-
-    @Column(nullable = false)
-    private LocalDate endDate;
-
-    @Column(nullable = true)
-    private LocalDate returnDate;
+    private LocalDate date;
 
     @Column(nullable = false)
     private Float totalPrice = 0f;
+
+    @Column(nullable = true)
+    private Float surcharge = 0f;
+
+    @Column(nullable = true)
+    private Float refund = 0f;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -50,8 +50,17 @@ public class Reservation {
     private boolean isPaid;
 
     public void calculateTotalPrice() {
-        this.totalPrice = items.stream()
+        float itemsTotal = items.stream()
                 .map(ReservationItem::getSubtotal)
                 .reduce(0f, Float::sum);
+
+        this.totalPrice = itemsTotal + surcharge - refund;
+    }
+    public Float getTotalDiscount() {
+        return items.stream().map(ReservationItem::getDiscount).reduce(0f, Float::sum);
+    }
+
+    public Float getTotalSurcharge() {
+        return items.stream().map(ReservationItem::getSurcharge).reduce(0f, Float::sum);
     }
 }

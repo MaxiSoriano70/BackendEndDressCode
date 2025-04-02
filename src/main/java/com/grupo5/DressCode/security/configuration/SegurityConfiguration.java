@@ -69,6 +69,7 @@ public class SegurityConfiguration {
 
                     // Endpoints accesibles para ADMIN y USER (buscar por id)
                     auth.requestMatchers(HttpMethod.GET, "/reservations/{id}").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers(HttpMethod.DELETE, "/{reservationId}/item/{clotheId}").hasAnyRole("ADMIN", "USER");
 
                     // Endpoints específicos solo para ADMIN
                     auth.requestMatchers(HttpMethod.PUT, "/reservations/{id}/confirm-payment").hasAnyRole("ADMIN", "USER");

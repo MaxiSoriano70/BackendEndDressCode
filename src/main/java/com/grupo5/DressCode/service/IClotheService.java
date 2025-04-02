@@ -10,6 +10,7 @@ public interface IClotheService {
     ClotheDTO createClothe(ClotheDTO clotheDTO);
     Optional<ClotheDTO> searchForId(int id);
     List<ClotheDTO> searchAll();
+    List<ClotheDTO> searchAllDelete();
     ClotheDTO updateClothe(int id, ClotheDTO clotheDTO);
     void deleteClothe(Integer id);
     /*List<Object[]> searchName(String name);*/

@@ -146,7 +146,6 @@ public class UserService implements IUserService {
                         clothe.getSize(),
                         clothe.getName(),
                         clothe.getPrice(),
-                        clothe.getStock(),
                         clothe.isActive(),
                         clothe.getCategory() != null ? clothe.getCategory().getCategoryId() : null,
                         clothe.getColor() != null ? clothe.getColor().getColorId() : null,

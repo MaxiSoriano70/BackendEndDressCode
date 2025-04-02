@@ -51,7 +51,6 @@ public class ClotheService implements IClotheService {
         newClothe.setSize(clotheDTO.getSize());
         newClothe.setName(clotheDTO.getName());
         newClothe.setPrice(clotheDTO.getPrice());
-        newClothe.setStock(clotheDTO.getStock());
         newClothe.setActive(clotheDTO.isActive());
         newClothe.setCategory(category);
         newClothe.setColor(color);
@@ -94,6 +93,13 @@ public class ClotheService implements IClotheService {
     }
 
     @Override
+    public List<ClotheDTO> searchAllDelete() {
+        return clotheRepository.findAll().stream()
+                .filter(Clothe::isDeleted)
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+    @Override
     public ClotheDTO updateClothe(int id, ClotheDTO clotheDTO) {
         // Buscar la prenda por ID, asegurándonos de que no esté eliminada lógicamente
         Clothe existingClothe = clotheRepository.findByClotheIdAndIsDeletedFalse(id)
@@ -114,9 +120,6 @@ public class ClotheService implements IClotheService {
         }
         if (clotheDTO.getPrice() != null && clotheDTO.getPrice() > 0) {
             existingClothe.setPrice(clotheDTO.getPrice());
-        }
-        if (clotheDTO.getStock() != null) {
-            existingClothe.setStock(clotheDTO.getStock());
         }
         existingClothe.setActive(clotheDTO.isActive());
 
@@ -154,13 +157,9 @@ public class ClotheService implements IClotheService {
         Clothe clothe = clotheRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prenda no encontrada"));
         clothe.deleteLogically(); // Eliminación lógica
+        clothe.setActive(false);
         clotheRepository.save(clothe);
     }
-
-    /*public List<Object[]> searchName(String name) {
-        List<Object[]> clothes = clotheRepository.findClotheIdsAndNamesByName(name);
-        return clothes;
-    }*/
 
     public List<ClotheDTO> searchName(String name) {
         // Log para verificar el valor de "name"
@@ -179,7 +178,6 @@ public class ClotheService implements IClotheService {
                         clothe.getSize(),
                         clothe.getName(),
                         clothe.getPrice(),
-                        clothe.getStock(),
                         clothe.isActive(),
                         clothe.getCategory() != null ? clothe.getCategory().getCategoryId() : null,
                         clothe.getColor() != null ? clothe.getColor().getColorId() : null,
@@ -203,7 +201,6 @@ public class ClotheService implements IClotheService {
                 clothe.getSize(),
                 clothe.getName(),
                 clothe.getPrice(),
-                clothe.getStock(),
                 clothe.isActive(),
                 clothe.getCategory().getCategoryId(),
                 clothe.getColor().getColorId(),

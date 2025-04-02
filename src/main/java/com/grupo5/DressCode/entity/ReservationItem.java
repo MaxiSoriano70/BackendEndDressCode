@@ -1,10 +1,14 @@
 package com.grupo5.DressCode.entity;
 
+import com.grupo5.DressCode.utils.EItemReservationStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.Duration;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -26,12 +30,45 @@ public class ReservationItem {
     private Clothe clothe;
 
     @Column(nullable = false)
-    private Integer rentalDays;
+    private LocalDate startDate;
+
+    @Column(nullable = false)
+    private LocalDate endDate;
+
+    @Column(nullable = true)
+    private LocalDate returnDate;
 
     @Column(nullable = false)
     private Float price;
 
-    public Float getSubtotal() {
-        return this.rentalDays * this.price;
+    @Column(nullable = false)
+    private Integer rentalDays;
+
+    @Column(nullable = false)
+    private Float  subtotal= 0.0f;
+
+    @Column(nullable = true)
+    private Float discount = 0.0f;
+
+    @Column(nullable = true)
+    private Float surcharge = 0.0f;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EItemReservationStatus itemReservationStatus;
+
+    public Integer getRentalDays() {
+        if (startDate != null && endDate != null) {
+            return (int) Duration.between(
+                    startDate.atStartOfDay(),
+                    endDate.atStartOfDay()
+            ).toDays();
+        }
+        return 0;
+    }
+
+    public void calculateSubtotal() {
+        this.rentalDays = getRentalDays();
+        this.subtotal = (this.rentalDays * this.price) - this.discount + this.surcharge;
     }
 }

@@ -31,6 +31,12 @@ public class ClotheController {
         return ResponseEntity.ok(prendasDTO);
     }
 
+    @GetMapping("/delete")
+    public ResponseEntity<List<ClotheDTO>> traerTodosEliminada() {
+        List<ClotheDTO> prendasDTO = clotheService.searchAllDelete();
+        return ResponseEntity.ok(prendasDTO);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ClotheDTO> buscarPrendaPorId(@PathVariable Integer id) {
         Optional<ClotheDTO> prendaDTO = clotheService.searchForId(id);
