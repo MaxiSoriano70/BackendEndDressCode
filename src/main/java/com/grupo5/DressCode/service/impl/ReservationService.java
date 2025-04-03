@@ -20,10 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Transactional
@@ -73,7 +70,7 @@ public class ReservationService implements IReservationService {
 
             reservationItems.add(item);
 
-            clothe.setActive(false);
+            //clothe.setActive(false);
             clotheRepository.save(clothe);
         }
 
@@ -321,4 +318,22 @@ public class ReservationService implements IReservationService {
                 .map(reservation -> modelMapper.map(reservation, ReservationDTO.class))
                 .toList();
     }
+
+    @Override
+    public List<LocalDate> getReservedDatesForClothe(int clotheId) {
+        List<ReservationItem> items = reservationItemRepository.findByClothe_ClotheId(clotheId);
+        Set<LocalDate> reservedDates = new HashSet<>();
+
+        for (ReservationItem item : items) {
+            LocalDate start = item.getStartDate();
+            LocalDate end = item.getEndDate();
+            while (!start.isAfter(end)) {
+                reservedDates.add(start);
+                start = start.plusDays(1);
+            }
+        }
+
+        return new ArrayList<>(reservedDates); // Convertimos Set a List
+    }
+
 }

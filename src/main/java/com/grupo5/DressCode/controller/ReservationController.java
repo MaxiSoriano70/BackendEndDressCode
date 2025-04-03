@@ -7,8 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/reservations")
@@ -95,5 +97,11 @@ public class ReservationController {
     public ResponseEntity<List<ReservationDTO>> getReservationsByUser(@PathVariable int userId) {
         List<ReservationDTO> reservations = reservationService.searchAllFromUser(userId);
         return ResponseEntity.ok(reservations);
+    }
+
+    @GetMapping("/reserved-dates/{clotheId}")
+    public ResponseEntity<List<LocalDate>> getReservedDates(@PathVariable Integer clotheId) {
+        List<LocalDate> reservedDates = reservationService.getReservedDatesForClothe(clotheId);
+        return ResponseEntity.ok(reservedDates);
     }
 }

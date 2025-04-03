@@ -2,6 +2,7 @@ package com.grupo5.DressCode.service;
 
 import com.grupo5.DressCode.dto.ReservationDTO;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,4 +17,5 @@ public interface IReservationService {
     boolean processReturn(int reservationId, int clotheId);
     boolean removeItemFromReservation(int reservationId, int clotheId);
     List<ReservationDTO> searchAllFromUser(int userId);
+    List<LocalDate> getReservedDatesForClothe(int clotheId);
 }

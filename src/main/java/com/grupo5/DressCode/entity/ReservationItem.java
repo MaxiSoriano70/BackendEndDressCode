@@ -62,7 +62,7 @@ public class ReservationItem {
             return (int) Duration.between(
                     startDate.atStartOfDay(),
                     endDate.atStartOfDay()
-            ).toDays();
+            ).toDays() + 1;
         }
         return 0;
     }

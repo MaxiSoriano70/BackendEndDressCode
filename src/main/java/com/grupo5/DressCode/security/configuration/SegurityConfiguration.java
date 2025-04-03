@@ -26,7 +26,8 @@ public class SegurityConfiguration {
                     auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
 
                     auth.requestMatchers("/auth/**").permitAll();
-                    auth.requestMatchers(HttpMethod.GET, "/clothe/**", "/clothe/search", "/category/**", "/color/**", "/attribute/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/clothe/**", "/clothe/search", "/category/**", "/color/**", "/attribute/**", "/reservations/reserved-dates/**").permitAll();
+
 
                     // Endpoints accesibles para ADMIN y USER
                     auth.requestMatchers(HttpMethod.PUT, "/user/**").hasAnyRole("ADMIN", "USER");
@@ -77,6 +78,7 @@ public class SegurityConfiguration {
                     auth.requestMatchers(HttpMethod.PUT, "/imagen/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/imagen/**").hasRole("ADMIN");
 
+                    auth.requestMatchers(HttpMethod.GET, "/reservations").hasAnyRole("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/reservations/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/reservations/cancel-pending").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.PUT, "/reservations/{id}/return-clothe").hasRole("ADMIN");
