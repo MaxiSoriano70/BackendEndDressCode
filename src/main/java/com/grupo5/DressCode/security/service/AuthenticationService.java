@@ -45,7 +45,7 @@ public class AuthenticationService {
 
         // Crear el mensaje de bienvenida
         String asunto = "Bienvenido a DressCode";
-        String cuerpo = "Hola " + user.getFirstName() + " " + user.getFirstName() + ",\n\n" +
+        String cuerpo = "Hola " + user.getFirstName() + " " + user.getLastName() + ",\n\n" +
                 "Bienvenido a DressCode. Nos alegra que te hayas unido a nuestra plataforma.\n" +
                 "¡Disfruta de la experiencia!\n\n" +
                 "http://localhost:5174/login" +
