@@ -46,9 +46,9 @@ public class UserController {
     public ResponseEntity<String> updateUser(@PathVariable Integer id, @RequestBody UserDTO userDTO) {
         Optional<UserDTO> updatedUserDTO = userService.updateUser(id, userDTO);
         if (updatedUserDTO.isPresent()) {
-            return ResponseEntity.ok("{\"message\": \"user updated\"}");
+            return ResponseEntity.ok("{\"message\": \"user actualizado\"}");
         } else {
-            return new ResponseEntity<>("{\"message\": \"user not found\"}", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("{\"message\": \"user error al actualizar\"}", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -57,9 +57,9 @@ public class UserController {
         Optional<UserDTO> userDTO = userService.searchForId(id);
         if (userDTO.isPresent()) {
             userService.deleteUser(id);
-            return ResponseEntity.ok("{\"message\": \"user deleted\"}");
+            return ResponseEntity.ok("{\"message\": \"user eliminado\"}");
         } else {
-            return new ResponseEntity<>("{\"message\": \"user not found\"}", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("{\"message\": \"user error al eliminar\"}", HttpStatus.NOT_FOUND);
         }
     }
 

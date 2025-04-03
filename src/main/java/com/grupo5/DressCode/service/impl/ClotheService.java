@@ -36,15 +36,12 @@ public class ClotheService implements IClotheService {
 
     @Override
     public ClotheDTO createClothe(ClotheDTO clotheDTO) {
-        // Validar existencia de la categoría
         Category category = categoryRepository.findById(clotheDTO.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
 
-        // Validar existencia del color
         Color color = colorRepository.findById(clotheDTO.getColorId())
                 .orElseThrow(() -> new RuntimeException("Color no encontrado"));
 
-        // Crear una nueva prenda
         Clothe newClothe = new Clothe();
         newClothe.setSku(clotheDTO.getSku());
         newClothe.setDescription(clotheDTO.getDescription());
@@ -64,7 +61,6 @@ public class ClotheService implements IClotheService {
             });
         }
 
-        // Agregar atributos
         if (clotheDTO.getAttributeIds() != null) {
             clotheDTO.getAttributeIds().forEach(attributeId -> {
                 Optional<Attribute> attributeOpt = attributeRepository.findById(attributeId);
@@ -72,7 +68,6 @@ public class ClotheService implements IClotheService {
             });
         }
 
-        // Guardar la prenda
         Clothe savedClothe = clotheRepository.save(newClothe);
 
         return convertToDTO(savedClothe);
@@ -101,11 +96,9 @@ public class ClotheService implements IClotheService {
     }
     @Override
     public ClotheDTO updateClothe(int id, ClotheDTO clotheDTO) {
-        // Buscar la prenda por ID, asegurándonos de que no esté eliminada lógicamente
         Clothe existingClothe = clotheRepository.findByClotheIdAndIsDeletedFalse(id)
                 .orElseThrow(() -> new RuntimeException("Prenda no encontrada o eliminada lógicamente"));
 
-        // Actualizar la prenda
         if (clotheDTO.getSku() != null && !clotheDTO.getSku().isEmpty()) {
             existingClothe.setSku(clotheDTO.getSku());
         }
@@ -123,13 +116,11 @@ public class ClotheService implements IClotheService {
         }
         existingClothe.setActive(clotheDTO.isActive());
 
-        // Actualizar categoría y color
         categoryRepository.findById(clotheDTO.getCategoryId()).ifPresent(existingClothe::setCategory);
         colorRepository.findById(clotheDTO.getColorId()).ifPresent(existingClothe::setColor);
 
-        // Actualizar imágenes
         if (clotheDTO.getImageUrls() != null) {
-            existingClothe.getImages().clear(); // Limpiar imágenes anteriores
+            existingClothe.getImages().clear();
             clotheDTO.getImageUrls().forEach(imageUrl -> {
                 Image image = new Image();
                 image.setImageUrl(imageUrl);
@@ -137,7 +128,6 @@ public class ClotheService implements IClotheService {
             });
         }
 
-        // Actualizar atributos
         if (clotheDTO.getAttributeIds() != null) {
             Set<Attribute> updatedAttributes = new HashSet<>();
             clotheDTO.getAttributeIds().forEach(attributeId -> {
@@ -145,8 +135,6 @@ public class ClotheService implements IClotheService {
             });
             existingClothe.setAttributes(updatedAttributes);
         }
-
-        // Guardar la prenda actualizada
         Clothe updatedClothe = clotheRepository.save(existingClothe);
 
         return convertToDTO(updatedClothe);
@@ -162,9 +150,6 @@ public class ClotheService implements IClotheService {
     }
 
     public List<ClotheDTO> searchName(String name) {
-        // Log para verificar el valor de "name"
-        System.out.println("Searching for name: " + name);
-
         List<Clothe> clothes = clotheRepository.findByNameContainingIgnoreCase(name);
         if (clothes.isEmpty()) {
             return Collections.emptyList();

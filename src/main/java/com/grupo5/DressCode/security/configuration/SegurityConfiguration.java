@@ -25,6 +25,9 @@ public class SegurityConfiguration {
                     // Permitir solicitudes OPTIONS para CORS preflight
                     auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
 
+                    auth.requestMatchers("/auth/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/clothe/**", "/clothe/search", "/category/**", "/color/**", "/attribute/**").permitAll();
+
                     // Endpoints accesibles para ADMIN y USER
                     auth.requestMatchers(HttpMethod.PUT, "/user/**").hasAnyRole("ADMIN", "USER");
 
@@ -35,14 +38,19 @@ public class SegurityConfiguration {
                     auth.requestMatchers(HttpMethod.POST, "/reservations/**").hasAnyRole("ADMIN", "USER");
                     auth.requestMatchers(HttpMethod.PUT, "/reservations/**").hasAnyRole("ADMIN", "USER");
                     auth.requestMatchers(HttpMethod.PUT, "/reservations/{id}/confirm-payment").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers(HttpMethod.GET, "/reservations/user/{userId}").hasAnyRole("ADMIN", "USER");
 
-                    // Endpoints accesibles para ADMIN y USER (buscar por id)
                     auth.requestMatchers(HttpMethod.GET, "/reservations/{id}").hasAnyRole("ADMIN", "USER");
-                    auth.requestMatchers(HttpMethod.DELETE, "/{reservationId}/item/{clotheId}").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers(HttpMethod.DELETE, "/reservations/{reservationId}/item/{clotheId}").hasAnyRole("ADMIN", "USER");
 
-                    // Endpoints sin autenticación
-                    auth.requestMatchers("/auth/**").permitAll();
-                    auth.requestMatchers(HttpMethod.GET, "/clothe/**", "/clothe/search", "/category/**", "/color/**", "/attribute/**").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/review").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers(HttpMethod.GET, "/review/{id}").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers(HttpMethod.PUT, "/review/{id}").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers(HttpMethod.DELETE, "/review/{id}").hasAnyRole("ADMIN", "USER");
+
+                    auth.requestMatchers(HttpMethod.GET, "/review/clothe/{clotheId}").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers(HttpMethod.GET, "/review/user/{userId}").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers(HttpMethod.GET, "/review/clothe/{clotheId}/rating").hasAnyRole("ADMIN", "USER");
 
                     // Endpoints accesibles solo para ADMIN
                     auth.requestMatchers(HttpMethod.GET, "/user/**").hasRole("ADMIN");
@@ -69,9 +77,11 @@ public class SegurityConfiguration {
                     auth.requestMatchers(HttpMethod.PUT, "/imagen/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/imagen/**").hasRole("ADMIN");
 
-                    auth.requestMatchers(HttpMethod.DELETE, "/reservations/**").hasAnyRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.DELETE, "/reservations/**").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/reservations/cancel-pending").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.PUT, "/reservations/{id}/return-clothe").hasRole("ADMIN");
+
+                    auth.requestMatchers(HttpMethod.GET, "/review").hasRole("ADMIN");
 
                     // Cualquier otra solicitud debe estar autenticada
                     auth.anyRequest().authenticated();

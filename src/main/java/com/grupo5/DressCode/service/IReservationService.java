@@ -9,10 +9,11 @@ public interface IReservationService {
     ReservationDTO createReservation(ReservationDTO ReservationDTO);
     Optional<ReservationDTO> searchForId(int id);
     List<ReservationDTO> searchAll();
-    void updateReservation(int id, ReservationDTO reservationDTO);
-    void deleteReservation(Integer id);
-    void confirmReservationPayment(int reservationId);
+    boolean updateReservation(int id, ReservationDTO reservationDTO);
+    boolean deleteReservation(Integer id);
+    boolean confirmReservationPayment(int reservationId);
     void cancelPendingReservations();
-    void processReturn(int reservationId, int clotheId);
-    void removeItemFromReservation(int reservationId, int clotheId);
+    boolean processReturn(int reservationId, int clotheId);
+    boolean removeItemFromReservation(int reservationId, int clotheId);
+    List<ReservationDTO> searchAllFromUser(int userId);
 }

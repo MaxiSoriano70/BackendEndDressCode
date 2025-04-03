@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface IReservationRepository extends JpaRepository<Reservation, Integer> {
     List<Reservation> findByStatus(EReservationStatus status);
+    List<Reservation> findByUser_UsuarioId(int usuarioId);
+    boolean existsByUserUsuarioIdAndItemsClotheClotheId(int usuarioId, int clotheId);
 }

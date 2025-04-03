@@ -100,94 +100,111 @@ public class ReservationService implements IReservationService {
                 .toList();
     }
 
-    public void updateReservation(int id, ReservationDTO reservationDTO) {
-        Reservation reservation = reservationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Reservación no encontrada"));
+    @Override
+    public boolean updateReservation(int id, ReservationDTO reservationDTO) {
+        try {
+            Reservation reservation = reservationRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Reservación no encontrada"));
 
-        Set<ReservationItem> currentItems = reservation.getItems(); // Ítems actuales en la reserva
+            Set<ReservationItem> currentItems = reservation.getItems();
 
-        for (ReservationItemDTO itemDTO : reservationDTO.getItems()) {
-            Optional<ReservationItem> existingItemOpt = currentItems.stream()
-                    .filter(item -> item.getClothe().getClotheId().equals(itemDTO.getClotheId()))
-                    .findFirst();
+            for (ReservationItemDTO itemDTO : reservationDTO.getItems()) {
+                Optional<ReservationItem> existingItemOpt = currentItems.stream()
+                        .filter(item -> item.getClothe().getClotheId().equals(itemDTO.getClotheId()))
+                        .findFirst();
 
-            if (existingItemOpt.isPresent()) {
-                // Si el ítem ya existe, solo lo actualizamos
-                ReservationItem existingItem = existingItemOpt.get();
-                existingItem.setStartDate(itemDTO.getStartDate());
-                existingItem.setEndDate(itemDTO.getEndDate());
-                existingItem.setRentalDays(itemDTO.getRentalDays()); // Se actualiza correctamente
-                existingItem.calculateSubtotal();
-            } else {
-                // Si el ítem no existe, lo agregamos como nuevo
-                Clothe clothe = clotheRepository.findById(itemDTO.getClotheId())
-                        .orElseThrow(() -> new RuntimeException("Prenda no encontrada"));
+                if (existingItemOpt.isPresent()) {
+                    ReservationItem existingItem = existingItemOpt.get();
+                    existingItem.setStartDate(itemDTO.getStartDate());
+                    existingItem.setEndDate(itemDTO.getEndDate());
+                    existingItem.setRentalDays(itemDTO.getRentalDays());
+                    existingItem.calculateSubtotal();
+                } else {
+                    // Si el ítem no existe, lo agregamos como nuevo
+                    Clothe clothe = clotheRepository.findById(itemDTO.getClotheId())
+                            .orElseThrow(() -> new RuntimeException("Prenda no encontrada"));
 
-                if (clothe.isDeleted()) {
-                    throw new RuntimeException("La prenda " + clothe.getName() + " está eliminada y no puede reservarse.");
+                    if (clothe.isDeleted()) {
+                        throw new RuntimeException("La prenda " + clothe.getName() + " está eliminada y no puede reservarse.");
+                    }
+                    if (!clothe.isActive()) {
+                        throw new RuntimeException("La prenda " + clothe.getName() + " no está disponible para reservar.");
+                    }
+
+                    ReservationItem newItem = new ReservationItem();
+                    newItem.setClothe(clothe);
+                    newItem.setStartDate(itemDTO.getStartDate());
+                    newItem.setEndDate(itemDTO.getEndDate());
+                    newItem.setPrice(clothe.getPrice());
+                    newItem.setRentalDays(itemDTO.getRentalDays());
+                    newItem.setItemReservationStatus(EItemReservationStatus.RESERVADO);
+                    newItem.setReservation(reservation);
+                    newItem.calculateSubtotal();
+                    currentItems.add(newItem);
+
+                    clothe.setActive(false);
+                    clotheRepository.save(clothe);
                 }
-                if (!clothe.isActive()) {
-                    throw new RuntimeException("La prenda " + clothe.getName() + " no está disponible para reservar.");
-                }
+            }
 
-                ReservationItem newItem = new ReservationItem();
-                newItem.setClothe(clothe);
-                newItem.setStartDate(itemDTO.getStartDate());
-                newItem.setEndDate(itemDTO.getEndDate());
-                newItem.setPrice(clothe.getPrice());
-                newItem.setRentalDays(itemDTO.getRentalDays());
-                newItem.setItemReservationStatus(EItemReservationStatus.RESERVADO);
-                newItem.setReservation(reservation);
-                newItem.calculateSubtotal();
-                currentItems.add(newItem); // Se agrega al set de ítems
+            reservation.calculateTotalPrice();
+            reservationRepository.save(reservation);
 
-                // Cambiar el estado de la prenda a inactiva
-                clothe.setActive(false);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
+
+    @Override
+    public boolean deleteReservation(Integer id) {
+        try {
+            Reservation reservation = reservationRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Reservación no encontrada"));
+
+            for (ReservationItem item : reservation.getItems()) {
+                Clothe clothe = item.getClothe();
+                clothe.setActive(true);
                 clotheRepository.save(clothe);
             }
+
+            reservationRepository.delete(reservation);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-
-        reservation.calculateTotalPrice();
-        reservationRepository.save(reservation);
     }
-
 
 
     @Override
-    public void deleteReservation(Integer id) {
-        Reservation reservation = reservationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Reservación no encontrada"));
+    public boolean confirmReservationPayment(int reservationId) {
+        try {
+            Reservation reservation = reservationRepository.findById(reservationId)
+                    .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
 
-        for (ReservationItem item : reservation.getItems()) {
-            Clothe clothe = item.getClothe();
-            clothe.setActive(true);
-            clotheRepository.save(clothe);
+            if (reservation.getStatus() == EReservationStatus.CANCELADO) {
+                return false;
+            }
+
+            if (!reservation.isPaid()) {
+                reservation.setPaid(true);
+            }
+
+            reservation.setStatus(EReservationStatus.CONFIRMADO);
+
+            for (ReservationItem item : reservation.getItems()) {
+                item.setItemReservationStatus(EItemReservationStatus.ALQUILADO);
+            }
+
+            reservationRepository.save(reservation);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-
-        reservationRepository.delete(reservation);
     }
 
-    @Override
-    public void confirmReservationPayment(int reservationId) {
-        Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
-
-        if (reservation.getStatus() == EReservationStatus.CANCELADO) {
-            throw new IllegalStateException("No se puede confirmar el pago de una reserva cancelada");
-        }
-
-        if (!reservation.isPaid()) {
-            reservation.setPaid(true);
-        }
-
-        reservation.setStatus(EReservationStatus.CONFIRMADO);
-
-        for (ReservationItem item : reservation.getItems()) {
-            item.setItemReservationStatus(EItemReservationStatus.ALQUILADO);
-        }
-
-        reservationRepository.save(reservation);
-    }
 
 
     @Override
@@ -215,63 +232,93 @@ public class ReservationService implements IReservationService {
         }
     }
     @Override
-    public void processReturn(int reservationId, int clotheId) {
-        Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new RuntimeException("Reservación no encontrada"));
+    public boolean processReturn(int reservationId, int clotheId) {
+        try {
+            Reservation reservation = reservationRepository.findById(reservationId)
+                    .orElseThrow(() -> new RuntimeException("Reservación no encontrada"));
 
-        ReservationItem item = reservation.getItems().stream()
-                .filter(i -> i.getClothe().getClotheId() == clotheId)
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Prenda no encontrada en la reserva"));
+            ReservationItem item = reservation.getItems().stream()
+                    .filter(i -> i.getClothe().getClotheId() == clotheId)
+                    .findFirst()
+                    .orElse(null);
 
-        LocalDate today = LocalDate.now();
-        LocalDateTime endDateTime = item.getEndDate().atStartOfDay();
-        LocalDateTime todayStartOfDay = today.atStartOfDay();
+            if (item == null) {
+                return false;
+            }
 
-        if (todayStartOfDay.isBefore(endDateTime)) {
-            item.setDiscount(item.getPrice() * 0.05f);
-        } else if (todayStartOfDay.isAfter(endDateTime)) {
-            item.setSurcharge(item.getPrice() * 0.15f);
+            LocalDate today = LocalDate.now();
+            LocalDateTime endDateTime = item.getEndDate().atStartOfDay();
+            LocalDateTime todayStartOfDay = today.atStartOfDay();
+
+            if (todayStartOfDay.isBefore(endDateTime)) {
+                item.setDiscount(item.getPrice() * 0.05f);
+            } else if (todayStartOfDay.isAfter(endDateTime)) {
+                item.setSurcharge(item.getPrice() * 0.15f);
+            }
+
+            item.setItemReservationStatus(EItemReservationStatus.DEVUELTO);
+            item.getClothe().setActive(true);
+            clotheRepository.save(item.getClothe());
+
+            reservation.setRefund(reservation.getTotalDiscount());
+            reservation.setSurcharge(reservation.getTotalSurcharge());
+            reservation.calculateTotalPrice();
+
+            boolean allReturned = reservation.getItems().stream()
+                    .allMatch(i -> i.getItemReservationStatus() == EItemReservationStatus.DEVUELTO);
+
+            reservation.setStatus(allReturned ? EReservationStatus.COMPLETADO : EReservationStatus.INCOMPLETO);
+            reservationRepository.save(reservation);
+
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-
-        item.setItemReservationStatus(EItemReservationStatus.DEVUELTO);
-        item.getClothe().setActive(true);
-        clotheRepository.save(item.getClothe());
-
-        reservation.setRefund(reservation.getTotalDiscount());
-        reservation.setSurcharge(reservation.getTotalSurcharge());
-        reservation.calculateTotalPrice();
-
-        boolean allReturned = reservation.getItems().stream()
-                .allMatch(i -> i.getItemReservationStatus() == EItemReservationStatus.DEVUELTO);
-
-        reservation.setStatus(allReturned ? EReservationStatus.COMPLETADO : EReservationStatus.INCOMPLETO);
-        reservationRepository.save(reservation);
     }
 
+
     @Override
-    public void removeItemFromReservation(int reservationId, int clotheId) {
-        Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new RuntimeException("Reservación no encontrada"));
+    public boolean removeItemFromReservation(int reservationId, int clotheId) {
+        try {
+            Reservation reservation = reservationRepository.findById(reservationId)
+                    .orElseThrow(() -> new RuntimeException("Reservación no encontrada"));
 
-        if (reservation.getStatus() != EReservationStatus.PENDIENTE) {
-            throw new IllegalStateException("No se pueden eliminar prendas de una reserva que no está en estado PENDIENTE");
+            if (reservation.getStatus() != EReservationStatus.PENDIENTE) {
+                throw new IllegalStateException("No se pueden eliminar prendas de una reserva que no está en estado PENDIENTE");
+            }
+
+            ReservationItem item = reservation.getItems().stream()
+                    .filter(i -> i.getClothe().getClotheId() == clotheId)
+                    .findFirst()
+                    .orElse(null);
+
+            if (item == null) {
+                return false;
+            }
+
+            reservation.getItems().remove(item);
+            item.getClothe().setActive(true);
+            clotheRepository.save(item.getClothe());
+
+            if (reservation.getItems().isEmpty()) {
+                reservation.setStatus(EReservationStatus.CANCELADO);
+            }
+
+            reservation.calculateTotalPrice();
+            reservationRepository.save(reservation);
+
+            return true;
+        } catch (Exception e) {
+            return false;
         }
+    }
 
-        ReservationItem item = reservation.getItems().stream()
-                .filter(i -> i.getClothe().getClotheId() == clotheId)
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Prenda no encontrada en la reserva"));
 
-        reservation.getItems().remove(item);
-        item.getClothe().setActive(true);
-        clotheRepository.save(item.getClothe());
-
-        if (reservation.getItems().isEmpty()) {
-            reservation.setStatus(EReservationStatus.CANCELADO);
-        }
-
-        reservation.calculateTotalPrice();
-        reservationRepository.save(reservation);
+    @Override
+    public List<ReservationDTO> searchAllFromUser(int userId) {
+        List<Reservation> reservations = reservationRepository.findByUser_UsuarioId(userId);
+        return reservations.stream()
+                .map(reservation -> modelMapper.map(reservation, ReservationDTO.class))
+                .toList();
     }
 }
