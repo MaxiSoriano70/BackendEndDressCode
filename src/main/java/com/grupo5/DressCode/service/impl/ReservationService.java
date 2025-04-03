@@ -172,6 +172,10 @@ public class ReservationService implements IReservationService {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
 
+        if (reservation.getStatus() == EReservationStatus.CANCELADO) {
+            throw new IllegalStateException("No se puede confirmar el pago de una reserva cancelada");
+        }
+
         if (!reservation.isPaid()) {
             reservation.setPaid(true);
         }
@@ -184,6 +188,7 @@ public class ReservationService implements IReservationService {
 
         reservationRepository.save(reservation);
     }
+
 
     @Override
     public void cancelPendingReservations() {
@@ -248,6 +253,10 @@ public class ReservationService implements IReservationService {
     public void removeItemFromReservation(int reservationId, int clotheId) {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new RuntimeException("Reservación no encontrada"));
+
+        if (reservation.getStatus() != EReservationStatus.PENDIENTE) {
+            throw new IllegalStateException("No se pueden eliminar prendas de una reserva que no está en estado PENDIENTE");
+        }
 
         ReservationItem item = reservation.getItems().stream()
                 .filter(i -> i.getClothe().getClotheId() == clotheId)

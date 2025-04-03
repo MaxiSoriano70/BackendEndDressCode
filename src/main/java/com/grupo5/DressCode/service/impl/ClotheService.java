@@ -87,7 +87,7 @@ public class ClotheService implements IClotheService {
     @Override
     public List<ClotheDTO> searchAll() {
         return clotheRepository.findAll().stream()
-                .filter(clothe -> !clothe.isDeleted()) // Filtrar prendas eliminadas lógicamente
+                .filter(clothe -> !clothe.isDeleted())
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
@@ -156,7 +156,7 @@ public class ClotheService implements IClotheService {
     public void deleteClothe(Integer id) {
         Clothe clothe = clotheRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prenda no encontrada"));
-        clothe.deleteLogically(); // Eliminación lógica
+        clothe.deleteLogically();
         clothe.setActive(false);
         clotheRepository.save(clothe);
     }

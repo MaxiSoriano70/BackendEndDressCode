@@ -45,7 +45,7 @@ public class ReservationItem {
     private Integer rentalDays;
 
     @Column(nullable = false)
-    private Float  subtotal= 0.0f;
+    private Float subtotal= 0.0f;
 
     @Column(nullable = true)
     private Float discount = 0.0f;
