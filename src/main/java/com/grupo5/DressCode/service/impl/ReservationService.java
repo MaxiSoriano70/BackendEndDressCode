@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -322,8 +323,22 @@ public class ReservationService implements IReservationService {
     @Override
     public List<ReservationDTO> searchAllFromUser(int userId) {
         List<Reservation> reservations = reservationRepository.findByUser_UsuarioId(userId);
-        return reservations.stream()
-                .map(reservation -> modelMapper.map(reservation, ReservationDTO.class))
-                .toList();
+
+        return reservations.stream().map(reservation -> {
+            ReservationDTO dto = modelMapper.map(reservation, ReservationDTO.class);
+
+            Set<ReservationItemDTO> itemDTOs = reservation.getItems().stream().map(item -> {
+                ReservationItemDTO itemDTO = modelMapper.map(item, ReservationItemDTO.class);
+                itemDTO.setClotheId(item.getClothe().getClotheId());
+                itemDTO.setClotheName(item.getClothe().getName());
+                itemDTO.setParentReservationId(reservation.getReservationId());
+                return itemDTO;
+            }).collect(Collectors.toSet());
+
+            dto.setItems(itemDTOs);
+            dto.setUserId(reservation.getUser().getUsuarioId());
+            return dto;
+        }).toList();
     }
+
 }

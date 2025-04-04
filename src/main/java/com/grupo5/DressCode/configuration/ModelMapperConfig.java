@@ -18,7 +18,7 @@ public class ModelMapperConfig {
         modelMapper.addMappings(new PropertyMap<ReservationItem, ReservationItemDTO>() {
             @Override
             protected void configure() {
-                map().setReservationId(source.getReservation().getReservationId());
+                map().setParentReservationId(source.getReservation().getReservationId());
             }
         });
 

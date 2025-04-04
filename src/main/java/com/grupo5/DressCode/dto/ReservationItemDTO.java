@@ -14,8 +14,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class ReservationItemDTO {
     private Integer idReservationItem;
-    private Integer reservationId;
+    private Integer parentReservationId;
     private Integer clotheId;
+    private String clotheName;
     private LocalDate startDate;
     private LocalDate endDate;
     private LocalDate returnDate;
