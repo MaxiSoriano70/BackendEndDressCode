@@ -82,7 +82,7 @@ public class AuthenticationService {
         try {
             MimeMessage mensaje = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mensaje, true);
-            helper.setFrom("maximiliano.70.32.10.soriano@gmail.com");
+            helper.setFrom("dresscodedh5c4@gmail.com");
             helper.setTo(destinatario);
             helper.setSubject(asunto);
             helper.setText(cuerpo);
