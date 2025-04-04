@@ -45,7 +45,7 @@ public class ReservationItem {
     private Integer rentalDays;
 
     @Column(nullable = false)
-    private Float subtotal= 0.0f;
+    private Float subtotal = 0.0f;
 
     @Column(nullable = true)
     private Float discount = 0.0f;
@@ -56,6 +56,14 @@ public class ReservationItem {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EItemReservationStatus itemReservationStatus;
+
+    @PrePersist
+    @PreUpdate
+    private void validateDates() {
+        if (startDate != null && endDate != null && !endDate.isAfter(startDate)) {
+            throw new IllegalArgumentException("La fecha de fin debe ser posterior a la fecha de inicio.");
+        }
+    }
 
     public Integer getRentalDays() {
         if (startDate != null && endDate != null) {

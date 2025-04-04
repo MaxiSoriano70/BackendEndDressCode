@@ -61,6 +61,10 @@ public class ReservationService implements IReservationService {
                 throw new RuntimeException("La prenda " + clothe.getName() + " no está disponible para reservar.");
             }
 
+            if (itemDTO.getEndDate().isBefore(itemDTO.getStartDate())) {
+                throw new IllegalArgumentException("La fecha de fin debe ser posterior a la fecha de inicio.");
+            }
+
             ReservationItem item = new ReservationItem();
             item.setClothe(clothe);
             item.setStartDate(itemDTO.getStartDate());
@@ -113,6 +117,10 @@ public class ReservationService implements IReservationService {
                         .filter(item -> item.getClothe().getClotheId().equals(itemDTO.getClotheId()))
                         .findFirst();
 
+                if (itemDTO.getEndDate().isBefore(itemDTO.getStartDate())) {
+                    throw new IllegalArgumentException("La fecha de fin debe ser posterior a la fecha de inicio.");
+                }
+
                 if (existingItemOpt.isPresent()) {
                     ReservationItem existingItem = existingItemOpt.get();
                     existingItem.setStartDate(itemDTO.getStartDate());
@@ -120,7 +128,6 @@ public class ReservationService implements IReservationService {
                     existingItem.setRentalDays(itemDTO.getRentalDays());
                     existingItem.calculateSubtotal();
                 } else {
-                    // Si el ítem no existe, lo agregamos como nuevo
                     Clothe clothe = clotheRepository.findById(itemDTO.getClotheId())
                             .orElseThrow(() -> new RuntimeException("Prenda no encontrada"));
 
@@ -155,8 +162,6 @@ public class ReservationService implements IReservationService {
             return false;
         }
     }
-
-
 
     @Override
     public boolean deleteReservation(Integer id) {
