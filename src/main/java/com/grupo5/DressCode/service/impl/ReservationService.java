@@ -242,50 +242,51 @@ public class ReservationService implements IReservationService {
             }
         }
     }
-    @Override
-    public boolean processReturn(int reservationId, int clotheId) {
-        try {
-            Reservation reservation = reservationRepository.findById(reservationId)
-                    .orElseThrow(() -> new RuntimeException("Reservación no encontrada"));
+        @Override
+        public boolean processReturn(int reservationId, int clotheId) {
+            try {
+                Reservation reservation = reservationRepository.findById(reservationId)
+                        .orElseThrow(() -> new RuntimeException("Reservación no encontrada"));
 
-            ReservationItem item = reservation.getItems().stream()
-                    .filter(i -> i.getClothe().getClotheId() == clotheId)
-                    .findFirst()
-                    .orElse(null);
+                ReservationItem item = reservation.getItems().stream()
+                        .filter(i -> i.getClothe().getClotheId() == clotheId)
+                        .findFirst()
+                        .orElse(null);
 
-            if (item == null) {
+                if (item == null) {
+                    return false;
+                }
+
+                LocalDate today = LocalDate.now();
+                LocalDateTime endDateTime = item.getEndDate().atStartOfDay();
+                LocalDateTime todayStartOfDay = today.atStartOfDay();
+
+                if (todayStartOfDay.isBefore(endDateTime)) {
+                    item.setDiscount(item.getPrice() * 0.05f);
+                } else if (todayStartOfDay.isAfter(endDateTime)) {
+                    item.setSurcharge(item.getPrice() * 0.15f);
+                }
+
+                item.setReturnDate(today);
+                item.setItemReservationStatus(EItemReservationStatus.DEVUELTO);
+                item.getClothe().setActive(true);
+                clotheRepository.save(item.getClothe());
+
+                reservation.setRefund(reservation.getTotalDiscount());
+                reservation.setSurcharge(reservation.getTotalSurcharge());
+                reservation.calculateTotalPrice();
+
+                boolean allReturned = reservation.getItems().stream()
+                        .allMatch(i -> i.getItemReservationStatus() == EItemReservationStatus.DEVUELTO);
+
+                reservation.setStatus(allReturned ? EReservationStatus.COMPLETADO : EReservationStatus.INCOMPLETO);
+                reservationRepository.save(reservation);
+
+                return true;
+            } catch (Exception e) {
                 return false;
             }
-
-            LocalDate today = LocalDate.now();
-            LocalDateTime endDateTime = item.getEndDate().atStartOfDay();
-            LocalDateTime todayStartOfDay = today.atStartOfDay();
-
-            if (todayStartOfDay.isBefore(endDateTime)) {
-                item.setDiscount(item.getPrice() * 0.05f);
-            } else if (todayStartOfDay.isAfter(endDateTime)) {
-                item.setSurcharge(item.getPrice() * 0.15f);
-            }
-
-            item.setItemReservationStatus(EItemReservationStatus.DEVUELTO);
-            item.getClothe().setActive(true);
-            clotheRepository.save(item.getClothe());
-
-            reservation.setRefund(reservation.getTotalDiscount());
-            reservation.setSurcharge(reservation.getTotalSurcharge());
-            reservation.calculateTotalPrice();
-
-            boolean allReturned = reservation.getItems().stream()
-                    .allMatch(i -> i.getItemReservationStatus() == EItemReservationStatus.DEVUELTO);
-
-            reservation.setStatus(allReturned ? EReservationStatus.COMPLETADO : EReservationStatus.INCOMPLETO);
-            reservationRepository.save(reservation);
-
-            return true;
-        } catch (Exception e) {
-            return false;
         }
-    }
 
 
     @Override
