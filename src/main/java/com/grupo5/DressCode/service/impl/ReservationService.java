@@ -13,7 +13,10 @@ import com.grupo5.DressCode.security.repository.IUserRepository;
 import com.grupo5.DressCode.service.IReservationService;
 import com.grupo5.DressCode.utils.EItemReservationStatus;
 import com.grupo5.DressCode.utils.EReservationStatus;
+import jakarta.mail.internet.MimeMessage;
 import org.modelmapper.ModelMapper;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +42,8 @@ public class ReservationService implements IReservationService {
     private IClotheRepository clotheRepository;
     @Autowired
     private IReservationItemRepository reservationItemRepository;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     public ReservationDTO createReservation(ReservationDTO reservationDTO) {
         User user = userRepository.findById(reservationDTO.getUserId())
@@ -339,6 +344,22 @@ public class ReservationService implements IReservationService {
             dto.setUserId(reservation.getUser().getUsuarioId());
             return dto;
         }).toList();
+    }
+
+
+    public void enviarCorreo(String destinatario, String asunto, String cuerpo) {
+        try {
+            MimeMessage mensaje = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mensaje, true);
+            helper.setFrom("dresscodedh5c4@gmail.com");
+            helper.setTo(destinatario);
+            helper.setSubject(asunto);
+            helper.setText(cuerpo);
+
+            javaMailSender.send(mensaje);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
