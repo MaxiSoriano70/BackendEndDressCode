@@ -47,7 +47,7 @@ public class AuthenticationService {
         String cuerpo = "<p style='font-size: 36px; font-weight: bold; color: #D4AF37; text-align: center; text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);'>Bienvenido a DressCode.</p>" +
                 "<p style='font-size: 16px;'>Nos alegra que te hayas unido a nuestra plataforma.</p>" +
                 "<p style='font-size: 18px; font-weight: bold; text-align: center; color: #D4AF37'>¡Disfruta de la experiencia!</p>" +
-                "<p style='font-size: 16px;'>Inicia sesión aquí: <a href='http://localhost:5174/login' style='color: #FF6600; text-decoration: none; font-weight: bold;'>Inicia sesión</a></p>" +
+                "<p style='font-size: 16px;'>Inicia sesión aquí: <a href='https://dresscode.lat/' style='color: #FF6600; text-decoration: none; font-weight: bold;'>Inicia sesión</a></p>" +
                 "<p style='font-size: 16px; color: #333333;'>Correo: <span style='color: #FF6600;'>" + user.getEmail() + "</span></p>" +
                 "<p style='font-size: 16px;'>Saludos,<br><strong>El equipo de DressCode</strong></p>";
 
